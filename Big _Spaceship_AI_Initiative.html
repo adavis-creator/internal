@@ -43,30 +43,50 @@
       z-index: 100;
       background: #fff;
       border-bottom: 1px solid var(--rule);
-      padding: 0 48px;
     }
     .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
       display: flex;
-      align-items: center;
-      gap: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
+      align-items: stretch;
+      overflow: hidden;
     }
-    .nav-inner::-webkit-scrollbar { display: none; }
     .nav-wordmark {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.18em;
+      font-size: 10px;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--ink);
-      padding: 16px 24px 16px 0;
+      padding: 0 20px 0 32px;
       border-right: 1px solid var(--rule);
-      margin-right: 8px;
       white-space: nowrap;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
     }
+    .nav-scroll-wrap {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+    }
+    .nav-scroll-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 48px;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+      pointer-events: none;
+      z-index: 2;
+      transition: opacity 0.2s;
+    }
+    .nav-scroll-wrap.at-end::after { opacity: 0; }
+    .nav-scroll-inner {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 48px 0 0;
+    }
+    .nav-scroll-inner::-webkit-scrollbar { display: none; }
     .nav-group {
       display: flex;
       align-items: center;
@@ -74,19 +94,19 @@
     }
     .nav-divider {
       width: 1px;
-      height: 20px;
+      height: 16px;
       background: var(--rule);
-      margin: 0 8px;
+      margin: 0 6px;
       flex-shrink: 0;
     }
     .tab-btn {
       font-family: 'DM Sans', sans-serif;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 400;
       color: var(--ink-light);
       background: none;
       border: none;
-      padding: 16px 14px;
+      padding: 15px 10px;
       cursor: pointer;
       white-space: nowrap;
       border-bottom: 2px solid transparent;
@@ -576,7 +596,9 @@
     <div class="nav-wordmark" id="wordmark" onclick="switchTab('overview')" style="cursor:pointer">
       Big Spaceship AI
     </div>
-    <div id="nav-groups"></div>
+    <div class="nav-scroll-wrap" id="nav-scroll-wrap">
+      <div class="nav-scroll-inner" id="nav-groups"></div>
+    </div>
   </div>
 </nav>
 
@@ -2539,19 +2561,18 @@ function renderNav() {
 
   const container = document.getElementById('nav-groups');
   container.innerHTML = '';
-  container.style.display = 'flex';
-  container.style.alignItems = 'center';
+  container.style.cssText = 'display:flex;align-items:center;flex-wrap:nowrap;flex:1';
 
   NAV_TABS.forEach(group => {
     const div = document.createElement('div');
-    div.style.cssText = 'display:flex;align-items:center';
+    div.style.cssText = 'display:flex;align-items:center;flex-wrap:nowrap';
 
     const divider = document.createElement('div');
     divider.className = 'nav-divider';
     div.appendChild(divider);
 
     const label = document.createElement('span');
-    label.style.cssText = "font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#888;padding:0 8px;white-space:nowrap";
+    label.style.cssText = "font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#bbb;padding:0 6px;white-space:nowrap";
     label.textContent = group.group;
     div.appendChild(label);
 
@@ -2569,6 +2590,17 @@ function renderNav() {
 
     container.appendChild(div);
   });
+
+  // Update fade on scroll
+  const scrollEl = container;
+  const wrap = document.getElementById('nav-scroll-wrap');
+  const updateFade = () => {
+    const atEnd = scrollEl.scrollLeft + scrollEl.clientWidth >= scrollEl.scrollWidth - 4;
+    wrap.classList.toggle('at-end', atEnd);
+  };
+  scrollEl.removeEventListener('scroll', updateFade);
+  scrollEl.addEventListener('scroll', updateFade);
+  setTimeout(updateFade, 50);
 }
 
 // Init
