@@ -1,0 +1,2579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Spaceship · AI Transformation Roadmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <style>
+
+    :root {
+      --ink: #1a1a1a;
+      --ink-mid: #555;
+      --ink-light: #888;
+      --rule: #E5E5E5;
+      --surface: #F7F7F7;
+      --orange: #E8612A;
+      --blue: #3B82F6;
+      --emerald: #10B981;
+      --violet: #8B5CF6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #fff;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid var(--rule);
+      padding: 0 48px;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-wordmark {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      padding: 16px 24px 16px 0;
+      border-right: 1px solid var(--rule);
+      margin-right: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--rule);
+      margin: 0 8px;
+      flex-shrink: 0;
+    }
+    .tab-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ink-light);
+      background: none;
+      border: none;
+      padding: 16px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+    .tab-btn:hover { color: var(--ink); }
+    .tab-btn.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 500; }
+    .tab-btn[data-tab="brand"].active     { border-bottom-color: var(--orange); color: var(--orange); }
+    .tab-btn[data-tab="creative"].active  { border-bottom-color: var(--blue); color: var(--blue); }
+    .tab-btn[data-tab="production"].active{ border-bottom-color: var(--emerald); color: var(--emerald); }
+    .tab-btn[data-tab="apm"].active       { border-bottom-color: var(--orange); color: var(--orange); }
+    .tab-btn[data-tab="internal"].active  { border-bottom-color: var(--violet); color: var(--violet); }
+    .tab-btn[data-tab="equip"].active      { border-bottom-color: var(--blue);    color: var(--blue); }
+    .tab-btn[data-tab="enable"].active     { border-bottom-color: var(--emerald); color: var(--emerald); }
+    .tab-btn[data-tab="communicate"].active{ border-bottom-color: var(--violet);  color: var(--violet); }
+
+    /* ── Page layout ── */
+
+    /* ── Overview page ── */
+    .overview-hero {
+      padding: 56px 0 48px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 48px;
+    }
+    .overview-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 16px;
+    }
+    .overview-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 44px;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .overview-hero h1 em { font-style: italic; color: var(--orange); }
+    .overview-hero p {
+      font-size: 15px;
+      color: var(--ink-mid);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ── Pillars grid ── */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .pillar-card {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 24px 26px;
+      position: relative;
+    }
+    .pillar-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 10px 10px 0 0;
+    }
+    .pillar-card.p1::before { background: var(--orange); }
+    .pillar-card.p2::before { background: var(--blue); }
+    .pillar-card.p3::before { background: var(--emerald); }
+    .pillar-card.p4::before { background: var(--violet); }
+    .pillar-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .p1 .pillar-num { color: var(--orange); }
+    .p2 .pillar-num { color: var(--blue); }
+    .p3 .pillar-num { color: var(--emerald); }
+    .p4 .pillar-num { color: var(--violet); }
+    .pillar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+    .pillar-desc {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+    }
+    .pillar-bullets {
+      list-style: none;
+      margin-top: 14px;
+    }
+    .pillar-bullets li {
+      font-size: 12px;
+      color: var(--ink-mid);
+      padding: 5px 0 5px 16px;
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+    }
+    .pillar-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--ink-light);
+      font-size: 10px;
+    }
+
+    /* ── Decisions / KPI blocks ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 12px;
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+    .decision-row {
+      display: flex;
+      gap: 24px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .decision-key {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-light);
+      min-width: 160px;
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+    .decision-val {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    .decision-val strong { font-weight: 500; }
+
+    .kpis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+    .kpi-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 6px;
+    }
+    .kpi-text { font-size: 13px; color: var(--ink); line-height: 1.55; }
+
+    /* ── Phase pages ── */
+    .phase-hero {
+      padding-bottom: 32px;
+      border-bottom: 3px solid var(--ink);
+      margin-bottom: 40px;
+    }
+    .phase-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 10px;
+    }
+    .phase-hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .phase-hero p { font-size: 14px; color: var(--ink-mid); max-width: 560px; }
+    .phase-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .phase-step {
+      display: flex;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: flex-start;
+    }
+    .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-light);
+      min-width: 32px;
+      padding-top: 3px;
+      flex-shrink: 0;
+    }
+    .step-content { flex: 1; }
+    .step-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .step-detail { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+    .step-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      color: var(--ink-light);
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── Shared doc styles ── */
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    h2 em { font-style: italic; }
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .doc-subhead { font-size: 14px; color: var(--ink-mid); max-width: 580px; }
+    .context-box {
+      border-left: 3px solid var(--ink);
+      padding: 16px 20px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--ink);
+      border-radius: 0 6px 6px 0;
+    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .already-list { list-style: none; }
+    .already-list li {
+      padding: 8px 0 8px 22px;
+      border-bottom: 1px solid var(--rule);
+      font-size: 13px;
+      color: var(--ink-mid);
+      position: relative;
+      line-height: 1.5;
+    }
+    .already-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #16A34A;
+      font-size: 11px;
+      top: 10px;
+      font-family: 'DM Mono', monospace;
+    }
+    blockquote {
+      border-left: 2px solid var(--rule);
+      padding: 6px 14px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--ink-mid);
+      font-style: italic;
+      line-height: 1.6;
+    }
+    .goals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .goal-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; }
+    .goal-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-light); margin-bottom: 6px; }
+    .goal-text { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .goal-sub { font-size: 12px; color: var(--ink-light); }
+    .blueprint { margin-top: 0; }
+    .table-wrap { border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--ink); }
+    thead th {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      padding: 11px 14px;
+      text-align: left;
+      font-weight: 400;
+    }
+    thead th.th-center { text-align: center; }
+    tbody tr { border-bottom: 1px solid var(--rule); }
+    tbody tr:last-child { border-bottom: none; }
+    .td-task { padding: 13px 14px; font-size: 13px; font-weight: 400; color: var(--ink); line-height: 1.45; width: 26%; }
+    .td-area { padding: 13px 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-light); width: 13%; vertical-align: top; padding-top: 16px; line-height: 1.4; }
+    .td-signal { padding: 13px 14px; font-size: 12px; color: var(--ink-mid); width: 22%; line-height: 1.45; }
+    .td-center { padding: 13px 10px; text-align: center; width: 9%; vertical-align: top; padding-top: 15px; }
+    .td-impact { padding: 10px 12px; width: 18%; vertical-align: top; }
+    .td-disciplines { padding: 13px 14px; font-size: 11px; color: var(--ink-mid); width: 18%; line-height: 1.6; }
+    .pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 100px; text-transform: uppercase; white-space: nowrap; }
+    .pill-urgent  { background: #FEE2E2; color: #991B1B; }
+    .pill-semi    { background: #FEF3C7; color: #92400E; }
+    .pill-back    { background: #F3F4F6; color: #6B7280; }
+    .pill-build   { background: #FEF3ED; color: #9A3412; border: 1px solid #FDBA74; }
+    .pill-buy     { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .pill-backlog { background: #F3F4F6; color: #6B7280; }
+    .impact-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; padding: 2px 7px; border-radius: 100px; text-transform: uppercase; white-space: nowrap; margin-bottom: 2px; }
+    .impact-hrs { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink); font-weight: 500; margin: 3px 0 2px; }
+    .impact-note { font-size: 11px; color: var(--ink-light); line-height: 1.4; }
+    .disc-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 6px; border-radius: 3px; margin: 1px 2px 1px 0; background: #F3F4F6; color: #555; border: 1px solid #E5E5E5; }
+    .disc-tag.all { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .footer-note { padding: 20px 24px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; font-size: 13px; color: var(--ink-mid); line-height: 1.65; display: flex; gap: 12px; }
+    .footer-note strong { color: var(--ink); font-weight: 500; }
+
+    /* ── On the board ── */
+    .onboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .onboard-col {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .onboard-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--rule);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .onboard-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 100px;
+      border: 1px solid var(--rule);
+      color: var(--ink-light);
+      white-space: nowrap;
+    }
+    .onboard-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .onboard-list {
+      list-style: none;
+      padding: 8px 0;
+    }
+    .onboard-list li {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .onboard-list li:last-child { border-bottom: none; }
+    .onboard-item-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+    .onboard-item-sub {
+      font-size: 12px;
+      color: var(--ink-light);
+      line-height: 1.5;
+    }  }
+    
+
+    /* ── Parallel paths ── */
+    .parallel-paths {
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .parallel-header {
+      display: grid;
+      grid-template-columns: 120px repeat(5, 1fr);
+      background: var(--ink);
+      padding: 0;
+    }
+    .parallel-header .ph-phase:first-child { grid-column: 2; }
+    .ph-phase {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      padding: 10px 12px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+    .ph-phase span {
+      display: block;
+      color: rgba(255,255,255,0.25);
+      font-size: 8px;
+      margin-top: 2px;
+      letter-spacing: 0.08em;
+    }
+    .parallel-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      border-bottom: 1px solid var(--rule);
+      min-height: 56px;
+    }
+    .parallel-label {
+      padding: 14px 14px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--surface);
+      border-right: 1px solid var(--rule);
+    }
+    .pl-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      margin-bottom: 3px;
+    }
+    .pl-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .parallel-bar-wrap {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      padding: 8px;
+      align-items: center;
+    }
+    .pbar {
+      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 10px;
+      color: var(--ink-mid);
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 40px;
+      justify-content: center;
+    }
+    .pbar-empty {
+      background: transparent !important;
+      border: 1px dashed var(--rule) !important;
+    }
+    .pbar-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-bottom: 2px;
+    }
+  
+  .tab-panel-inner { max-width: 960px; margin: 0 auto; padding: 48px 48px 96px; }
+
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-wordmark" id="wordmark" onclick="switchTab('overview')" style="cursor:pointer">
+      Big Spaceship AI
+    </div>
+    <div id="nav-groups"></div>
+  </div>
+</nav>
+
+<div class="tab-panel-inner" id="panel"></div>
+
+<script>
+const PANELS = {
+  overview: `<div class="overview-hero">
+      <div class="overview-eyebrow">Big Spaceship · AI Transformation Roadmap · Year 1</div>
+      <h1>Explorers,<br>not <em>settlers.</em></h1>
+      <p>The goal isn't to become an AI company. It's to become the best version of Big Spaceship — with AI as the thing that makes that possible at scale. AI amplifies human craft and judgment. It doesn't replace it.</p>
+    </div>
+
+    <div class="section-label" style="margin-top:0">Four pillars. One initiative.</div>
+    <div class="pillars-grid">
+      <div class="pillar-card p1">
+        <div class="pillar-num">Pillar 01 — Eliminate</div>
+        <div class="pillar-title">10 Initiatives · 3 Themes</div>
+        <div class="pillar-desc">Structured around Foundations, Efficiency, and Innovation. Each theme builds on the last — nothing scales without Foundations in place first.</div>
+        <ul class="pillar-bullets">
+          <li><strong style="font-weight:500;color:var(--ink)">Foundations (1–3)</strong> — everyone on tools, pain mapped, process standardized</li>
+          <li><strong style="font-weight:500;color:var(--ink)">Efficiency (4–7)</strong> — dept agents, pod agents, RFP automation, repositories</li>
+          <li><strong style="font-weight:500;color:var(--ink)">Innovation (8–10)</strong> — Field Notes, GenAI for creative, thought leadership</li>
+          <li>60-day pilots before scaling — every initiative gated on real data</li>
+        </ul>
+      </div>
+      <div class="pillar-card p2">
+        <div class="pillar-num">Pillar 02 — Equip</div>
+        <div class="pillar-title">Tools & Access</div>
+        <div class="pillar-desc">100% of staff on Claude + MSQ Assist with real onboarding. Then standardize the broader toolkit so no one is blocked by access, cost, or awareness.</div>
+        <ul class="pillar-bullets">
+          <li>Full company onboarding on Claude + MSQ Assist</li>
+          <li>MSQ Assist workshops tailored to BS roles</li>
+          <li>Tool audit — current access, gaps, and usage by discipline</li>
+          <li>Goal: connected workflows, not isolated tools</li>
+        </ul>
+      </div>
+      <div class="pillar-card p3">
+        <div class="pillar-num">Pillar 03 — Enable</div>
+        <div class="pillar-title">Training & Knowledge Sharing</div>
+        <div class="pillar-desc">AI literacy distributed across the org, not concentrated in a few individuals. Recurring, practical, discipline-specific.</div>
+        <ul class="pillar-bullets">
+          <li>Recurring training by discipline — not one-and-done</li>
+          <li>Pair resistors with champions, not mandates</li>
+          <li>Celebrate early adopters publicly — make it weird not to use these tools</li>
+          <li>Internal shareouts, lunch and learns, wins shared org-wide</li>
+        </ul>
+      </div>
+      <div class="pillar-card p4">
+        <div class="pillar-num">Pillar 04 — Communicate</div>
+        <div class="pillar-title">Full Comms Strategy</div>
+        <div class="pillar-desc">Six audiences, each with different needs. Honest about what AI can and can't do — that's a feature, not a weakness.</div>
+        <ul class="pillar-bullets">
+          <li>New hires — AI posture and tools from day one</li>
+          <li>Existing clients — honest, clear, not overclaiming</li>
+          <li>New business — AI as a capability differentiator</li>
+          <li>All-staff, exec/board, recruiting</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">MSQ SteerCo alignment</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px">
+      <div style="border:1px solid var(--rule);border-radius:8px;padding:18px 20px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#1B4F72;margin-bottom:6px">Agency Autonomy</div>
+        <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px">&lt; £50K</div>
+        <div style="font-size:12px;color:var(--ink-mid);line-height:1.55">Initiatives 1–3. Foundations work runs on existing budget — no escalation needed.</div>
+      </div>
+      <div style="border:1px solid var(--rule);border-radius:8px;padding:18px 20px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#1E6B45;margin-bottom:6px">SteerCo Authority</div>
+        <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px">&gt; £50K</div>
+        <div style="font-size:12px;color:var(--ink-mid);line-height:1.55">Initiatives 4–7. Dept agents, pod agents, repositories — business case required.</div>
+      </div>
+      <div style="border:1px solid var(--rule);border-radius:8px;padding:18px 20px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#6B2D8B;margin-bottom:6px">ExCo Escalation</div>
+        <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px">&gt; £250K</div>
+        <div style="font-size:12px;color:var(--ink-mid);line-height:1.55">Initiative 9. Full-scale GenAI creative production infrastructure — group sign-off.</div>
+      </div>
+    </div>
+
+    <div class="section-label">How we measure success</div>
+    <div class="kpis-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Efficiency</div>
+        <div class="kpi-text">Total verified hours reclaimed across live automated tasks. Discipline lead signs off on before/after when each task goes live. 20%+ reduction in low-value task time is the Y1 target.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Tool Usage</div>
+        <div class="kpi-text">100% of staff actively using Claude + Assist. Active users by tool and discipline, frequency of use, 60-day retention — are habits forming or are tools abandoned after the first week?</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Adoption Depth</div>
+        <div class="kpi-text">At least one active agent per department and per client pod by end of Y1. RFP first draft under 2 hours. Tasks moved from Blueprint to live, tracked org-wide.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Business Impact</div>
+        <div class="kpi-text">Outsourcing costs eliminated vs. prior year. New biz win rate maintained or improved. Client satisfaction: 100% retention, NPS neutral+. 3+ press placements, 2+ speaking engagements.</div>
+      </div>
+    </div>
+
+    <div class="section-label">Workstream timeline</div>
+    <p style="font-size:14px;color:var(--ink-mid);margin-bottom:20px;max-width:580px">All four pillars run in parallel. Progress in one doesn't gate progress in another.</p>
+    <div class="parallel-paths">
+      <div class="parallel-header">
+        <div class="ph-phase">Now</div>
+        <div class="ph-phase">Mths 1–2</div>
+        <div class="ph-phase">Mths 2–4</div>
+        <div class="ph-phase">Mths 4–7</div>
+        <div class="ph-phase">Mths 7–12</div>
+      </div>
+      <div class="parallel-row">
+        <div class="parallel-label" style="border-left:3px solid var(--orange)">
+          <div class="pl-num" style="color:var(--orange)">01</div>
+          <div class="pl-name">Eliminate</div>
+        </div>
+        <div class="parallel-bar-wrap">
+          <div class="pbar" style="background:rgba(232,97,42,0.12);border:1px solid rgba(232,97,42,0.25)"><div class="pbar-dot" style="background:var(--orange)"></div>Pain audit · gap-fill sessions</div>
+          <div class="pbar" style="background:rgba(232,97,42,0.18);border:1px solid rgba(232,97,42,0.3)"><div class="pbar-dot" style="background:var(--orange)"></div>Build/Buy/Backlog · Foundations pilots</div>
+          <div class="pbar" style="background:rgba(232,97,42,0.22);border:1px solid rgba(232,97,42,0.35)"><div class="pbar-dot" style="background:var(--orange)"></div>Efficiency builds live</div>
+          <div class="pbar" style="background:rgba(232,97,42,0.25);border:1px solid rgba(232,97,42,0.4)"><div class="pbar-dot" style="background:var(--orange)"></div>Innovation initiatives</div>
+          <div class="pbar" style="background:rgba(232,97,42,0.12);border:1px solid rgba(232,97,42,0.2)"><div class="pbar-dot" style="background:var(--orange)"></div>Measure · next wave</div>
+        </div>
+      </div>
+      <div class="parallel-row">
+        <div class="parallel-label" style="border-left:3px solid var(--blue)">
+          <div class="pl-num" style="color:var(--blue)">02</div>
+          <div class="pl-name">Equip</div>
+        </div>
+        <div class="parallel-bar-wrap">
+          <div class="pbar" style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.25)"><div class="pbar-dot" style="background:var(--blue)"></div>Tool audit · access gap map</div>
+          <div class="pbar" style="background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3)"><div class="pbar-dot" style="background:var(--blue)"></div>100% on Claude + Assist</div>
+          <div class="pbar" style="background:rgba(59,130,246,0.25);border:1px solid rgba(59,130,246,0.4)"><div class="pbar-dot" style="background:var(--blue)"></div>Standard toolkit live</div>
+          <div class="pbar" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.2)"><div class="pbar-dot" style="background:var(--blue)"></div>Ongoing access mgmt</div>
+          <div class="pbar pbar-empty"></div>
+        </div>
+      </div>
+      <div class="parallel-row">
+        <div class="parallel-label" style="border-left:3px solid var(--emerald)">
+          <div class="pl-num" style="color:var(--emerald)">03</div>
+          <div class="pl-name">Enable</div>
+        </div>
+        <div class="parallel-bar-wrap">
+          <div class="pbar pbar-empty"></div>
+          <div class="pbar" style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.25)"><div class="pbar-dot" style="background:var(--emerald)"></div>Training priorities set</div>
+          <div class="pbar" style="background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.3)"><div class="pbar-dot" style="background:var(--emerald)"></div>First sessions · lunch &amp; learns</div>
+          <div class="pbar" style="background:rgba(16,185,129,0.25);border:1px solid rgba(16,185,129,0.4)"><div class="pbar-dot" style="background:var(--emerald)"></div>Recurring cadence</div>
+          <div class="pbar" style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.2)"><div class="pbar-dot" style="background:var(--emerald)"></div>Wins shared · habits set</div>
+        </div>
+      </div>
+      <div class="parallel-row" style="border-bottom:none">
+        <div class="parallel-label" style="border-left:3px solid var(--violet)">
+          <div class="pl-num" style="color:var(--violet)">04</div>
+          <div class="pl-name">Communicate</div>
+        </div>
+        <div class="parallel-bar-wrap">
+          <div class="pbar pbar-empty"></div>
+          <div class="pbar" style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25)"><div class="pbar-dot" style="background:var(--violet)"></div>Audience map · materials drafted</div>
+          <div class="pbar" style="background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.3)"><div class="pbar-dot" style="background:var(--violet)"></div>Internal launch · client decks live</div>
+          <div class="pbar" style="background:rgba(139,92,246,0.25);border:1px solid rgba(139,92,246,0.4)"><div class="pbar-dot" style="background:var(--violet)"></div>Recruiting + new biz materials</div>
+          <div class="pbar" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.2)"><div class="pbar-dot" style="background:var(--violet)"></div>Press · speaking · Field Notes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">On the board</div>
+    <div class="onboard-grid">
+      <div class="onboard-col">
+        <div class="onboard-header">
+          <div class="onboard-tag">This week</div>
+          <div class="onboard-title">Getting ready</div>
+        </div>
+        <ul class="onboard-list">
+          <li>
+            <div class="onboard-item-title">Finalize initial plan</div>
+            <div class="onboard-item-sub">Lock four pillars, 10 initiatives, KPI framework — this document</div>
+          </li>
+          <li>
+            <div class="onboard-item-title">Finalize discipline gap-fill docs</div>
+            <div class="onboard-item-sub">Pre-seeded task lists per discipline — ready to bring into sessions</div>
+          </li>
+          <li>
+            <div class="onboard-item-title">Schedule discipline meetings</div>
+            <div class="onboard-item-sub">One gap-fill session per discipline booked for next week</div>
+          </li>
+        </ul>
+      </div>
+      <div class="onboard-col">
+        <div class="onboard-header">
+          <div class="onboard-tag" style="background:var(--ink);color:#fff;border-color:var(--ink)">Next week</div>
+          <div class="onboard-title">In the room</div>
+        </div>
+        <ul class="onboard-list">
+          <li>
+            <div class="onboard-item-title">Discipline gap-fill sessions</div>
+            <div class="onboard-item-sub">Brand Strategy, Creative & Design, Production, Account & PM, Internal Ops — react, correct, and add to pre-seeded task lists</div>
+          </li>
+          <li>
+            <div class="onboard-item-title">Establish tool tracking baseline</div>
+            <div class="onboard-item-sub">Current tool access and usage by discipline — starting point for the Equip audit</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── DISCIPLINE TABS ── -->`,
+  orgwide: `<div class="panel-header" style="border-bottom:3px solid #1a1a1a; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#1a1a1a">ORG-WIDE · BIG SPACESHIP AI INITIATIVE · GAP-FILL SESSION</div>
+      <h2>Org-Wide <em style="color:#1a1a1a">Gap-Fill</em></h2>
+      <p class="doc-subhead">Pre-populated from existing workflow mapping and team research. Come ready to react, correct, and add — not to start from scratch.</p>
+    </div>
+    <div class="section-label">Where things stand</div>
+    <div class="context-box" style="background:#F7F7F7; border-left-color:#1a1a1a">These tasks appear across three or more disciplines. They're pulled out of the individual discipline docs to avoid redundant evaluation — one decision here applies everywhere. Each discipline doc notes where these have been removed and points here.</div>
+    
+    <div class="section-label" style="margin-top:32px">Goals for this session</div>
+    <div class="goals-grid">
+      <div class="goal-card"><div class="goal-num">01</div><div class="goal-text">Confirm these are genuinely shared problems</div><div class="goal-sub">Or are there discipline-specific nuances that require separate solutions?</div></div>
+      <div class="goal-card"><div class="goal-num">02</div><div class="goal-text">Make one Build / Buy / Backlog call per item</div><div class="goal-sub">One decision, org-wide. Don't let each discipline reinvent this.</div></div>
+      <div class="goal-card"><div class="goal-num">03</div><div class="goal-text">Assign an owner per item</div><div class="goal-sub">Who pilots it? Who maintains it once it's live?</div></div>
+      <div class="goal-card"><div class="goal-num">04</div><div class="goal-text">Identify what's already being solved somewhere</div><div class="goal-sub">If one team has already piloted a solution, that's the starting point for everyone.</div></div>
+    </div>
+    <div style="margin-top:32px"><div class="section-label">Pre-seeded task list — react to this</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Source area</th>
+              <th>Why it qualifies</th>
+              <th class="th-center">Rec</th>
+              <th class="th-center">Priority</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Meeting notetaking, action item capture, and follow-up</td>
+            <td class="td-area">All Disciplines</td>
+            <td class="td-signal">Appears in every discipline. Fully automatable at capture stage. Zero human value in transcription or distribution.</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~36 hrs/wk &middot; ~1,728 hrs/yr</div>
+                <div class="impact-note">73 employees × ~30min/day spent in meetings requiring manual notes</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Client approval and feedback consolidation — replacing email-based review with a structured, tracked workflow</td>
+            <td class="td-area">Client Delivery</td>
+            <td class="td-signal">#1 pain point in the org-wide survey. Every client-facing discipline feels this. One platform decision affects everyone.</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~22 hrs/wk &middot; ~1,080 hrs/yr</div>
+                <div class="impact-note">~45 client-facing staff × ~30min/delivery on email-based consolidation</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Past project and knowledge surfacing — finding previous work, briefs, case studies, and project learnings quickly</td>
+            <td class="td-area">Knowledge Mgmt</td>
+            <td class="td-signal">Brand Strategy, Creative, and Account/PM all feel this as a separate pain point. One shared knowledge layer would serve all three.</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~25 hrs/wk &middot; ~1,200 hrs/yr</div>
+                <div class="impact-note">~50 staff × ~30min/week searching for past work, briefs, and references</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Performance and analytics reporting — recurring structured data pulls, formatting, and distribution across channels and campaigns</td>
+            <td class="td-area">Reporting</td>
+            <td class="td-signal">Appears in Brand, Social, Creative, and Account/PM. Same pattern: manual pulls on a recurring cycle.</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~18 hrs/wk &middot; ~888 hrs/yr</div>
+                <div class="impact-note">~37 staff × ~30min/week pulling and formatting recurring reports</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Creative variant generation — adapting and resizing assets for platform specs, formats, and audience segments</td>
+            <td class="td-area">Production / Creative</td>
+            <td class="td-signal">Production handles batch/delivery variants; Creative handles ideation-stage variants. Same underlying tool need, different trigger points.</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~18 hrs/wk &middot; ~864 hrs/yr</div>
+                <div class="impact-note">~36 Creative/Design/Production × ~30min/week on manual platform resizing</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Brand and grammar consistency checks — automated review of copy and creative against brand voice guidelines before delivery</td>
+            <td class="td-area">QA / Brand</td>
+            <td class="td-signal">Automation Summary flags this as an "All" discipline item. Trainable via brand guides and past approved work.</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~7 hrs/wk &middot; ~348 hrs/yr</div>
+                <div class="impact-note">~29 people outputting copy/creative × ~15min/review cycle weekly</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FFFFFF; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          </tbody>
+        </table></div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>After this session:</strong> Tasks feed into the org-wide Blueprint tracker. The exec team scores and assigns Build / Buy / Backlog in Phase 3. Your input here directly shapes what gets built and in what order.</p>
+    </div>`,
+  brand: `<div class="panel-header" style="border-bottom:3px solid #E8612A; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#E8612A">BRAND STRATEGY · BIG SPACESHIP AI INITIATIVE · GAP-FILL SESSION</div>
+      <h2>Brand Strategy <em style="color:#E8612A">Gap-Fill</em></h2>
+      <p class="doc-subhead">Pre-populated from existing workflow mapping and team research. Come ready to react, correct, and add — not to start from scratch.</p>
+    </div>
+    <div class="section-label">Where things stand</div>
+    <div class="context-box" style="background:#FEF3ED; border-left-color:#E8612A">Brand Strategy already has meaningful AI usage underway — Claude agents for discovery and brief creation, AI for social listening and synthetic audience testing. The gap is connection: these tools aren't talking to each other yet. Case study writing and competitive research are high-priority areas flagged in the Automation Summary.</div>
+    
+    <div class="section-label" style="margin-top:32px">Goals for this session</div>
+    <div class="goals-grid">
+      <div class="goal-card"><div class="goal-num">01</div><div class="goal-text">React to the pre-seeded task list</div><div class="goal-sub">What's accurate? What's missing? What's scored wrong?</div></div>
+      <div class="goal-card"><div class="goal-num">02</div><div class="goal-text">Add what we haven't captured yet</div><div class="goal-sub">What's the thing you complain about most that isn't here?</div></div>
+      <div class="goal-card"><div class="goal-num">03</div><div class="goal-text">Confirm or adjust Build / Buy / Backlog</div><div class="goal-sub">You know your tools and constraints better than anyone.</div></div>
+      <div class="goal-card"><div class="goal-num">04</div><div class="goal-text">Surface what's already in flight</div><div class="goal-sub">If someone on your team is solving one of these right now, we need to know.</div></div>
+    </div>
+    <div style="margin-top:32px"><div class="section-label">Pre-seeded task list — react to this</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Source area</th>
+              <th>Why it qualifies</th>
+              <th class="th-center">Rec</th>
+              <th class="th-center">Priority</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Client discovery prep — building "get smart" docs, pulling key takeaways, summarizing calls</td>
+            <td class="td-type">Client Discovery</td>
+            <td class="td-signal">High resource drain, highly repeatable, trainable via brief history</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~6 hrs/wk &middot; ~288 hrs/yr</div>
+                <div class="impact-note">9 people × ~40min each, ~1 prep/person/week</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FAFAFA">
+            <td class="td-task">HubSpot / CRM content tracking — logging discovery inputs and client comms automatically</td>
+            <td class="td-type">Client Discovery</td>
+            <td class="td-signal">Currently manual, integrable with existing tools</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~2 hrs/wk &middot; ~72 hrs/yr</div>
+                <div class="impact-note">~5 people × 15min/day logging → auto-sync saves ~1.5hrs/wk</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Category &amp; culture research — automated social monitoring, data scraping, and industry report aggregation</td>
+            <td class="td-type">Research &amp; Discovery</td>
+            <td class="td-signal">Scheduled pulls are fully automatable; synthesis is low human joy</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~9 hrs/wk &middot; ~432 hrs/yr</div>
+                <div class="impact-note">9 people × ~1hr/project, avg 1 project/person/week</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Category &amp; culture synthesis — trend analysis, research synthesis into strategic inputs</td>
+            <td class="td-type">Research &amp; Discovery</td>
+            <td class="td-signal">Trainable via history, low human joy at aggregation stage</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~14 hrs/wk &middot; ~648 hrs/yr</div>
+                <div class="impact-note">9 people × ~1.5hrs synthesis per project</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Audience competitive monitoring — tracking brand/product/launch activity and social listening feeds</td>
+            <td class="td-type">Research &amp; Discovery</td>
+            <td class="td-signal">Highly repeatable, automatable via scraping and monitoring tools</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~4 hrs/wk &middot; ~216 hrs/yr</div>
+                <div class="impact-note">9 people × 30min/week on manual pulls and formatting</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Audience research outputs — survey writing/analysis, competitive insight extraction, messaging analysis, SWOT generation</td>
+            <td class="td-type">Research &amp; Discovery</td>
+            <td class="td-signal">High volume of templated analytical work, trainable via past decks</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~18 hrs/wk &middot; ~864 hrs/yr</div>
+                <div class="impact-note">9 people × ~2hrs/project on surveys, SWOTs, messaging analysis</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Audience data pulls and report assembly — web/social data, MRI, audience report aggregation</td>
+            <td class="td-type">Audience Analysis</td>
+            <td class="td-signal">Automatable data pipeline, low human value at pull/format stage</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~4 hrs/wk &middot; ~216 hrs/yr</div>
+                <div class="impact-note">~5 people × ~1hr/week on MRI pulls and report formatting</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Persona building from scratch for each new client</td>
+            <td class="td-type">Audience Analysis</td>
+            <td class="td-signal">Highly repeatable, trainable via templates and past work</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~6 hrs/wk &middot; ~288 hrs/yr</div>
+                <div class="impact-note">~6 people × ~1hr per persona, ~1 build/person/week</div>
+              </td>
+          </tr>
+
+          
+
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Strategic brief writing — drafting positioning language, tone recommendations, and narrative sharpening</td>
+            <td class="td-type">Brand Strategy</td>
+            <td class="td-signal">Trainable via brief history, high resource drain at first-draft stage</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~14 hrs/wk &middot; ~648 hrs/yr</div>
+                <div class="impact-note">9 people × ~1.5hrs to first draft per brief</div>
+              </td>
+          </tr>
+
+          
+
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Comms planning AI support — channel mix recommendations, message sequencing, funnel gaps, content gap analysis, effectiveness prediction</td>
+            <td class="td-type">Comms Planning</td>
+            <td class="td-signal">High analytical volume, trainable via past plans and performance data</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~6 hrs/wk &middot; ~288 hrs/yr</div>
+                <div class="impact-note">~6 people × 1hr/plan on channel mix and gap analysis</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Case study writing — first draft generation and proofreading/copy editing</td>
+            <td class="td-type">Case Studies</td>
+            <td class="td-signal">High resource drain, trainable via past cases and project knowledge</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~4 hrs/wk &middot; ~192 hrs/yr</div>
+                <div class="impact-note">~8 people × ~2hrs/case study, ~0.25/person/week cadence</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FAFAFA">
+            <td class="td-task">White space exploration — using AI to pressure-test strategy and surface positioning gaps before presenting</td>
+            <td class="td-type">Brand Strategy</td>
+            <td class="td-signal">Distinct analytical task, trainable via brief and competitive inputs</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~3 hrs/wk &middot; ~144 hrs/yr</div>
+                <div class="impact-note">~6 people × 30min/project when used</div>
+              </td>
+          </tr>
+
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-type"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          
+          <tr style="background:#F0F7FF; border-left: 3px solid #3B82F6;">
+            <td class="td-task" style="color:#1D4ED8; font-style:italic; font-size:12px;" colspan="6">
+              ↗ <strong>Moved to Org-Wide doc:</strong> Performance reporting (moved to Org-Wide)
+            </td>
+          </tr>
+          <tr style="background:#FFFFFF; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-type"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-type"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Footer --></div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>After this session:</strong> Tasks feed into the org-wide Blueprint tracker. The exec team scores and assigns Build / Buy / Backlog in Phase 3. Your input here directly shapes what gets built and in what order.</p>
+    </div>`,
+  creative: `<div class="panel-header" style="border-bottom:3px solid #3B82F6; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#3B82F6">CREATIVE & DESIGN · BIG SPACESHIP AI INITIATIVE · GAP-FILL SESSION</div>
+      <h2>Creative & Design <em style="color:#3B82F6">Gap-Fill</em></h2>
+      <p class="doc-subhead">Pre-populated from existing workflow mapping and team research. Come ready to react, correct, and add — not to start from scratch.</p>
+    </div>
+    <div class="section-label">Where things stand</div>
+    <div class="context-box" style="background:#EFF6FF; border-left-color:#3B82F6">Creative/Design had the lowest survey response rate of any discipline, so this session is especially important for capturing ground truth. Key areas already identified: archive search, mood boards, variant generation, and asset management. Note: Creative had hesitation around AI for storyboarding — that's now resolved and in testing.</div>
+    <div class="two-col" style="margin-top:32px"><div>
+        <div class="section-label">What you're already doing</div>
+        <ul class="already-list"><li>Mood board AI generation in testing — not yet standardized across the team</li><li>Some AI for copywriting — used by individuals, not a consistent workflow</li><li>Asset resizing happening — but manual for most platform variants</li><li>Version tracking in ClickUp — inconsistent adoption across projects</li></ul>
+      </div>
+      <div>
+        <div class="section-label">From the team</div>
+        <blockquote>"There was historically a little bit of hesitation using an AI tool for storyboarding, which I think is insane. We are now moving forward with testing."</blockquote><blockquote>"Creative varying generation at scale feels really easy to solve and a potential quick win."</blockquote><blockquote>"Searching archives for past creative — trying to find that one execution from three years ago that's perfect for this new brief."</blockquote>
+      </div></div>
+    <div class="section-label" style="margin-top:32px">Goals for this session</div>
+    <div class="goals-grid">
+      <div class="goal-card"><div class="goal-num">01</div><div class="goal-text">React to the pre-seeded task list</div><div class="goal-sub">What's accurate? What's missing? What's scored wrong?</div></div>
+      <div class="goal-card"><div class="goal-num">02</div><div class="goal-text">Add what we haven't captured yet</div><div class="goal-sub">What's the thing you complain about most that isn't here?</div></div>
+      <div class="goal-card"><div class="goal-num">03</div><div class="goal-text">Confirm or adjust Build / Buy / Backlog</div><div class="goal-sub">You know your tools and constraints better than anyone.</div></div>
+      <div class="goal-card"><div class="goal-num">04</div><div class="goal-text">Surface what's already in flight</div><div class="goal-sub">If someone on your team is solving one of these right now, we need to know.</div></div>
+    </div>
+    <div style="margin-top:32px"><div class="section-label">Pre-seeded task list — react to this</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Source area</th>
+              <th>Why it qualifies</th>
+              <th class="th-center">Rec</th>
+              <th class="th-center">Priority</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Creative archive search — surfacing past work by category, brand, execution type for ideation and reference</td>
+            <td class="td-area">Concept Development</td>
+            <td class="td-signal">High resource drain, trainable via project history</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~14 hrs/wk &middot; ~696 hrs/yr</div>
+                <div class="impact-note">29 people × ~30min/week hunting through past project archives</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Mood board and reference asset sourcing — AI-assisted generation, organization, and tagging</td>
+            <td class="td-area">Concept Development</td>
+            <td class="td-signal">Highly repeatable, AI tools now mature for this use</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~14 hrs/wk &middot; ~696 hrs/yr</div>
+                <div class="impact-note">29 people × ~30min/concept, avg 1 concept/person/week</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Storyboarding from scratch for each concept</td>
+            <td class="td-area">Concept Development</td>
+            <td class="td-signal">Trainable — team hesitation now resolved</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~5 hrs/wk &middot; ~240 hrs/yr</div>
+                <div class="impact-note">~10 people on video projects × ~30min/storyboard</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Copy production — body copy generation, headline variations, CTA optimization, tone consistency checks</td>
+            <td class="td-area">Copywriting & Messaging</td>
+            <td class="td-signal">Trainable via brand voice guidelines and past copy</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~9 hrs/wk &middot; ~432 hrs/yr</div>
+                <div class="impact-note">18 creatives × ~30min/week on first-draft copy and variations</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Copy approval workflows and version tracking</td>
+            <td class="td-area">Copywriting & Messaging</td>
+            <td class="td-signal">Currently manual, integrable with ClickUp</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~7 hrs/wk &middot; ~348 hrs/yr</div>
+                <div class="impact-note">29 people × ~15min/week chasing approvals and version management</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Web/digital build support — template creation, responsive breakpoint generation, performance monitoring, broken link detection</td>
+            <td class="td-area">Web & Digital Design</td>
+            <td class="td-signal">High volume of repeatable dev tasks, automatable</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~6 hrs/wk &middot; ~264 hrs/yr</div>
+                <div class="impact-note">11 designers × ~30min/week on templates, breakpoints, link checks</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">UX and conversion optimization — UX improvement suggestions, user flow analysis, conversion optimization, page speed recommendations</td>
+            <td class="td-area">Web & Digital Design</td>
+            <td class="td-signal">Trainable via analytics and UX benchmarks</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~4 hrs/wk &middot; ~192 hrs/yr</div>
+                <div class="impact-note">~8 people on digital projects × ~30min/week</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Brand asset distribution, version control, and usage monitoring</td>
+            <td class="td-area">Visual Identity</td>
+            <td class="td-signal">High volume admin, automatable with DAM integration</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~7 hrs/wk &middot; ~348 hrs/yr</div>
+                <div class="impact-note">29 people × ~15min/week on asset distribution and version filing</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Social content production — scheduling, thumbnail generation, caption hooks, hashtag ideas, engagement prediction</td>
+            <td class="td-area">Social Content Creation</td>
+            <td class="td-signal">Highly repeatable, trainable via platform best practices</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~5 hrs/wk &middot; ~240 hrs/yr</div>
+                <div class="impact-note">~10 people × ~30min/week on social-specific scheduling and captions</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FFFFFF; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#F0F7FF; border-left: 3px solid #3B82F6;">
+            <td class="td-task" style="color:#1D4ED8; font-style:italic; font-size:12px;" colspan="6">
+              ↗ <strong>Moved to Org-Wide doc:</strong> Creative variant generation · Brand consistency checks · Campaign performance reporting · Meeting notetaking
+            </td>
+          </tr>
+          </tbody>
+        </table></div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>After this session:</strong> Tasks feed into the org-wide Blueprint tracker. The exec team scores and assigns Build / Buy / Backlog in Phase 3. Your input here directly shapes what gets built and in what order.</p>
+    </div>`,
+  production: `<div class="panel-header" style="border-bottom:3px solid #10B981; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#10B981">PRODUCTION · BIG SPACESHIP AI INITIATIVE · GAP-FILL SESSION</div>
+      <h2>Production <em style="color:#10B981">Gap-Fill</em></h2>
+      <p class="doc-subhead">Pre-populated from existing workflow mapping and team research. Come ready to react, correct, and add — not to start from scratch.</p>
+    </div>
+    <div class="section-label">Where things stand</div>
+    <div class="context-box" style="background:#ECFDF5; border-left-color:#10B981">Production carries the highest volume of mechanical, rule-based work in the agency. Most of it is fully automatable — transcoding, batch delivery, proxy generation — and several pilot tools are already in place. The two standout pain points are BA/legal clearance (especially on pharma/finance clients) and client approval via email, which was the #1 pain point in the org-wide survey.</div>
+    <div class="two-col" style="margin-top:32px"><div>
+        <div class="section-label">What you're already doing</div>
+        <ul class="already-list"><li>Transcode presets partially standardized — proxy generation still manual in places</li><li>BA clearance tool recently adopted — coverage and consistency TBD</li><li>Scratch VO and music suggestions with AI — not yet a defined workflow</li><li>ClickUp for project tracking — adoption varies by team and project</li></ul>
+      </div>
+      <div>
+        <div class="section-label">From the team</div>
+        <blockquote>"On the agency legal and business affairs side — we have financial and pharma, which are just very heavy. We've found a tool and actually eliminated a position."</blockquote><blockquote>"Client approval and feedback incorporation is a nightmare across the board — right now it's like sending assets via email. It's the Dark Ages."</blockquote>
+      </div></div>
+    <div class="section-label" style="margin-top:32px">Goals for this session</div>
+    <div class="goals-grid">
+      <div class="goal-card"><div class="goal-num">01</div><div class="goal-text">React to the pre-seeded task list</div><div class="goal-sub">What's accurate? What's missing? What's scored wrong?</div></div>
+      <div class="goal-card"><div class="goal-num">02</div><div class="goal-text">Add what we haven't captured yet</div><div class="goal-sub">What's the thing you complain about most that isn't here?</div></div>
+      <div class="goal-card"><div class="goal-num">03</div><div class="goal-text">Confirm or adjust Build / Buy / Backlog</div><div class="goal-sub">You know your tools and constraints better than anyone.</div></div>
+      <div class="goal-card"><div class="goal-num">04</div><div class="goal-text">Surface what's already in flight</div><div class="goal-sub">If someone on your team is solving one of these right now, we need to know.</div></div>
+    </div>
+    <div style="margin-top:32px"><div class="section-label">Pre-seeded task list — react to this</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Source area</th>
+              <th>Why it qualifies</th>
+              <th class="th-center">Rec</th>
+              <th class="th-center">Priority</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Pre-production scheduling — call sheets, casting/reel feedback, travel itinerary generation, PO process</td>
+            <td class="td-area">Pre-Production</td>
+            <td class="td-signal">Highly repeatable, trainable via project templates</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~4 hrs/wk &middot; ~168 hrs/yr</div>
+                <div class="impact-note">7 producers × ~30min/production on call sheets and itineraries</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Script and concept support — script polishing, concept expansion, storyboard creation</td>
+            <td class="td-area">Pre-Production</td>
+            <td class="td-signal">Trainable — team hesitation on storyboarding now resolved</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~2 hrs/wk &middot; ~96 hrs/yr</div>
+                <div class="impact-note">~4 producers × ~30min on scripted projects</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Asset editing automation — baseline cuts, syncing, resizing, social supers sizing, transcode presets, proxy generation, render farm integration</td>
+            <td class="td-area">Asset & Video Editing</td>
+            <td class="td-signal">Fully automatable at mechanical stage, zero human value</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~14 hrs/wk &middot; ~672 hrs/yr</div>
+                <div class="impact-note">7 producers × ~2hrs/week on baseline cuts, transcoding, proxy gen</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">AI-assisted editing — scene detection, smart edits, auto crops, AE expressions, music tempo matching, B-roll suggestions, pacing analysis</td>
+            <td class="td-area">Asset & Video Editing</td>
+            <td class="td-signal">Trainable via brand tone and edit style history</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~7 hrs/wk &middot; ~336 hrs/yr</div>
+                <div class="impact-note">7 producers × ~1hr/week on scene detection, crops, B-roll</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Audio production support — scratch VO, audio leveling, normalization, VO file delivery, alt line generation, audio cleanup, mixing suggestions</td>
+            <td class="td-area">Voiceover & Audio</td>
+            <td class="td-signal">Trainable; AI VO tools now production-ready for early drafts</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~5 hrs/wk &middot; ~252 hrs/yr</div>
+                <div class="impact-note">7 producers × ~45min/production on leveling, normalization, scratch VO</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Batch delivery — compression, queuing, uploads, trafficking, delivery confirmation tracking, client portal uploads, thumbnail/metadata generation, QC checks</td>
+            <td class="td-area">Batch Production & Delivery</td>
+            <td class="td-signal">Fully automatable pipeline, currently fragmented</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~7 hrs/wk &middot; ~336 hrs/yr</div>
+                <div class="impact-note">7 producers × ~1hr/delivery cycle on compression, uploads, trafficking</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Vendor and procurement management — PO creation, vendor performance tracking, contract milestones, crew day rates, vendor comparison analysis, spend patterns, cost prediction</td>
+            <td class="td-area">Vendor & Procurement</td>
+            <td class="td-signal">High admin volume, trainable via vendor history</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~4 hrs/wk &middot; ~168 hrs/yr</div>
+                <div class="impact-note">7 producers × ~30min/week on POs, vendor tracking, rate management</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Music licensing and rights management — license expiration alerts, clearance status tracking, rights database search, usage restriction flagging</td>
+            <td class="td-area">Rights & Clearances</td>
+            <td class="td-signal">High resource drain especially on pharma/finance clients, rule-based so automatable</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~5 hrs/wk &middot; ~252 hrs/yr</div>
+                <div class="impact-note">7 producers × ~45min/production on rights research and clearance</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Business affairs / legal clearance first-pass review</td>
+            <td class="td-area">Business Affairs</td>
+            <td class="td-signal">Tool recently adopted — coverage and consistency across client types (esp. pharma/finance) still TBD</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~5 hrs/wk &middot; ~252 hrs/yr</div>
+                <div class="impact-note">7 producers × ~45min/production — heavier on pharma/finance clients</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FFFFFF; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#F0F7FF; border-left: 3px solid #3B82F6;">
+            <td class="td-task" style="color:#1D4ED8; font-style:italic; font-size:12px;" colspan="6">
+              ↗ <strong>Moved to Org-Wide doc:</strong> Client asset approval · Creative variant generation · Meeting notetaking
+            </td>
+          </tr>
+          </tbody>
+        </table></div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>After this session:</strong> Tasks feed into the org-wide Blueprint tracker. The exec team scores and assigns Build / Buy / Backlog in Phase 3. Your input here directly shapes what gets built and in what order.</p>
+    </div>`,
+  apm: `<div class="panel-header" style="border-bottom:3px solid #E8612A; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#E8612A">ACCOUNT & PM · BIG SPACESHIP AI INITIATIVE · GAP-FILL SESSION</div>
+      <h2>Account & PM <em style="color:#E8612A">Gap-Fill</em></h2>
+      <p class="doc-subhead">Pre-populated from existing workflow mapping and team research. Come ready to react, correct, and add — not to start from scratch.</p>
+    </div>
+    <div class="section-label">Where things stand</div>
+    <div class="context-box" style="background:#FEF3ED; border-left-color:#E8612A">Account/PM sits at the center of the most cross-cutting automation opportunities in the agency. SOW drafting is the single highest-priority item identified across all agencies in the session. Client approval management and scope creep are systemic. The workflow doc has 16 mapped areas — most have clear automation potential. This session will be the richest.</div>
+    <div class="two-col" style="margin-top:32px"><div>
+        <div class="section-label">What you're already doing</div>
+        <ul class="already-list"><li>Some use of AI for meeting recaps — not consistent, not connected to action tracking</li><li>ClickUp in use for project management — automation layer not yet built on top</li><li>ClickUp + DAM integration for client approvals — in exploration, not live</li><li>HubSpot for some CRM tracking — pipeline automation not fully built out</li></ul>
+      </div>
+      <div>
+        <div class="section-label">From the team</div>
+        <blockquote>"SOW drafting — you could reduce time to first draft drastically by training an agent on your bank of 100 past SOWs."</blockquote><blockquote>"Client approval is a nightmare — some clients are so highly matrixed, there's a lot of political gamesmanship around it."</blockquote><blockquote>"Scope creep is in the top five pain points at every single agency across the group."</blockquote>
+      </div></div>
+    <div class="section-label" style="margin-top:32px">Goals for this session</div>
+    <div class="goals-grid">
+      <div class="goal-card"><div class="goal-num">01</div><div class="goal-text">React to the pre-seeded task list</div><div class="goal-sub">What's accurate? What's missing? What's scored wrong?</div></div>
+      <div class="goal-card"><div class="goal-num">02</div><div class="goal-text">Add what we haven't captured yet</div><div class="goal-sub">What's the thing you complain about most that isn't here?</div></div>
+      <div class="goal-card"><div class="goal-num">03</div><div class="goal-text">Confirm or adjust Build / Buy / Backlog</div><div class="goal-sub">You know your tools and constraints better than anyone.</div></div>
+      <div class="goal-card"><div class="goal-num">04</div><div class="goal-text">Surface what's already in flight</div><div class="goal-sub">If someone on your team is solving one of these right now, we need to know.</div></div>
+    </div>
+    <div style="margin-top:32px"><div class="section-label">Pre-seeded task list — react to this</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Source area</th>
+              <th>Why it qualifies</th>
+              <th class="th-center">Rec</th>
+              <th class="th-center">Priority</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">SOW drafting — AI-generated first draft trained on 100+ past SOWs, given RFP or brief as input</td>
+            <td class="td-area">SOW & Scope Management</td>
+            <td class="td-signal">Highest-priority item across all agencies; top source of project kickoff time</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~19 hrs/wk &middot; ~912 hrs/yr</div>
+                <div class="impact-note">19 people × ~1hr/SOW to first draft, avg 1 SOW/person/week</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Scope management — burn-rate alerts, scope creep detection, hours vs. scope alignment tracking, SOW comparison to similar projects</td>
+            <td class="td-area">SOW & Scope Management</td>
+            <td class="td-signal">Top 5 pain point across all agencies; rule-based and trainable via SOW</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-urgent">Urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~10 hrs/wk &middot; ~456 hrs/yr</div>
+                <div class="impact-note">19 people × ~30min/week on manual burn-rate checks and scope flags</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Client communication management — follow-up automation, escalation nudges, response time monitoring</td>
+            <td class="td-area">Client Communication</td>
+            <td class="td-signal">Highly repeatable, integrable with email and ClickUp</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~10 hrs/wk &middot; ~456 hrs/yr</div>
+                <div class="impact-note">19 people × ~30min/week on follow-up nudges and response tracking</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Client communication AI support — draft recaps, thread summarization, sentiment analysis on client emails, contact report generation</td>
+            <td class="td-area">Client Communication</td>
+            <td class="td-signal">Trainable via past comms; reduces time on low-value written output</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~14 hrs/wk &middot; ~684 hrs/yr</div>
+                <div class="impact-note">19 people × ~45min/week on contact reports and thread summaries</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Project management automation — timeline creation, deadline cascade updates, meeting invites, next steps population, conflict detection</td>
+            <td class="td-area">Project Management</td>
+            <td class="td-signal">High volume of repeatable PM tasks, ClickUp-integrable</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~14 hrs/wk &middot; ~684 hrs/yr</div>
+                <div class="impact-note">19 people × ~45min/week on timeline creation and deadline cascades</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Project status and reporting — weekly status report generation, risk flags, effort estimates, meeting recaps, timeline optimization</td>
+            <td class="td-area">Project Management</td>
+            <td class="td-signal">Highly repeatable, trainable via past reports and project templates</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~19 hrs/wk &middot; ~912 hrs/yr</div>
+                <div class="impact-note">19 people × ~1hr/week per client on status report generation</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Cross-disciplinary coordination — dependency reminders, conflict alerts, brief summarization, stakeholder mapping, handoff checklists</td>
+            <td class="td-area">Cross-Disciplinary</td>
+            <td class="td-signal">High coordination overhead, partially automatable via ClickUp</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~10 hrs/wk &middot; ~456 hrs/yr</div>
+                <div class="impact-note">19 people × ~30min/week on dependency tracking and handoffs</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Legal and compliance tracking — renewal tracking, compliance deadline alerts, clause detection, compliance gap assessment</td>
+            <td class="td-area">Legal & Compliance</td>
+            <td class="td-signal">Rule-based, high stakes if missed, fully automatable</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~4 hrs/wk &middot; ~192 hrs/yr</div>
+                <div class="impact-note">~8 people × ~30min/week on renewal and compliance deadline tracking</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Budget and financial management — budget alerts, invoice tracking, profitability dashboards, budget forecasting, variance analysis</td>
+            <td class="td-area">Budget & Financial</td>
+            <td class="td-signal">Highly repeatable, integrable with finance tools</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~7 hrs/wk &middot; ~336 hrs/yr</div>
+                <div class="impact-note">~9 PM leads × ~45min/week on budget alerts and variance reporting</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Resource allocation and capacity planning — availability tracking, utilization dashboards, capacity alerts, resource matching, bottleneck identification</td>
+            <td class="td-area">Resource Allocation</td>
+            <td class="td-signal">High coordination overhead, currently largely manual</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~5 hrs/wk &middot; ~228 hrs/yr</div>
+                <div class="impact-note">~9 PM leads × ~30min/week on availability and capacity checks</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">QA and deliverable review — review routing, version control, approval deadline reminders, quality checks, brand compliance error detection</td>
+            <td class="td-area">QA & Deliverable Review</td>
+            <td class="td-signal">Highly repeatable, trainable via brand guidelines and QA checklists</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~10 hrs/wk &middot; ~456 hrs/yr</div>
+                <div class="impact-note">19 people × ~30min/deliverable on review routing and brand checks</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Project intake, kickoff, and offboarding — request tracking, priority scoring, kickoff scheduling, agenda generation, knowledge transfer summaries, archive processes</td>
+            <td class="td-area">Project Onboarding</td>
+            <td class="td-signal">Highly repeatable, trainable via kickoff templates</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~5 hrs/wk &middot; ~228 hrs/yr</div>
+                <div class="impact-note">~9 leads × ~30min/week on intake, scoring, kickoff scheduling</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Project asset management — auto-tagging, metadata population, duplicate detection, smart tagging, similar asset recommendations</td>
+            <td class="td-area">Asset Management</td>
+            <td class="td-signal">High volume, currently manual; strong DAM integration opportunity</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~10 hrs/wk &middot; ~456 hrs/yr</div>
+                <div class="impact-note">19 people × ~30min/week on tagging, deduplication, archiving</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Freelance sourcing, briefing, and contract management</td>
+            <td class="td-area">Resource Allocation</td>
+            <td class="td-signal">High resource drain, trainable via vendor history and templates</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-back">Backburner</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~5 hrs/wk &middot; ~228 hrs/yr</div>
+                <div class="impact-note">~9 leads × ~30min/week on freelance briefing and contract management</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Change management — change log tracking, impact notifications, approval workflows, downstream effect prediction</td>
+            <td class="td-area">Change Management</td>
+            <td class="td-signal">Rule-based tracking automatable; impact analysis trainable via project history</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~3 hrs/wk &middot; ~144 hrs/yr</div>
+                <div class="impact-note">~8 people × ~22min/week on change log tracking and notifications</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FFFFFF; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#F0F7FF; border-left: 3px solid #3B82F6;">
+            <td class="td-task" style="color:#1D4ED8; font-style:italic; font-size:12px;" colspan="6">
+              ↗ <strong>Moved to Org-Wide doc:</strong> Meeting orchestration · Client approval consolidation · Knowledge/past project surfacing · Performance & health reporting
+            </td>
+          </tr>
+          </tbody>
+        </table></div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>After this session:</strong> Tasks feed into the org-wide Blueprint tracker. The exec team scores and assigns Build / Buy / Backlog in Phase 3. Your input here directly shapes what gets built and in what order.</p>
+    </div>`,
+  internal: `<div class="panel-header" style="border-bottom:3px solid #8B5CF6; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#8B5CF6">INTERNAL OPS · BIG SPACESHIP AI INITIATIVE · GAP-FILL SESSION</div>
+      <h2>Internal Ops <em style="color:#8B5CF6">Gap-Fill</em></h2>
+      <p class="doc-subhead">Pre-populated from existing workflow mapping and team research. Come ready to react, correct, and add — not to start from scratch.</p>
+    </div>
+    <div class="section-label">Where things stand</div>
+    <div class="context-box" style="background:#F5F3FF; border-left-color:#8B5CF6">Internal Operations covers Growth, Marketing, HR, Recruiting, Finance, Legal, and Tool Stack. The org spends 17% of time on internal operations — the agency average is 12–13%. Closing that gap is the efficiency target. The Automation Summary flags RFI Agent, HR FAQ bot, and Tool Stack Optimization as priority 1. Several of these are fast, high-impact builds.</div>
+    <div class="two-col" style="margin-top:32px"><div>
+        <div class="section-label">What you're already doing</div>
+        <ul class="already-list"><li>Some HubSpot CRM automation — pipeline tracking incomplete, RFP process still manual</li><li>HR FAQ answered manually by People Ops — no bot or self-service in place yet</li><li>Time tracking done manually — no automation or ClickUp integration in place</li><li>Some internal social scheduling — analytics and reporting still manual</li></ul>
+      </div>
+      <div>
+        <div class="section-label">From the team</div>
+        <blockquote>"We had an HR bot — any questions, you could just Slack it. It would answer them. And from a management perspective, I'd get automated reporting on what was being asked, so I could see what people were struggling with."</blockquote><blockquote>"Internal operations is at 17% of time — the average across agencies is 12–13%. That gap is where we start."</blockquote><blockquote>"Time tracking is painful. ClickUp could produce your timesheet for you, and you just click Approve."</blockquote>
+      </div></div>
+    <div class="section-label" style="margin-top:32px">Goals for this session</div>
+    <div class="goals-grid">
+      <div class="goal-card"><div class="goal-num">01</div><div class="goal-text">React to the pre-seeded task list</div><div class="goal-sub">What's accurate? What's missing? What's scored wrong?</div></div>
+      <div class="goal-card"><div class="goal-num">02</div><div class="goal-text">Add what we haven't captured yet</div><div class="goal-sub">What's the thing you complain about most that isn't here?</div></div>
+      <div class="goal-card"><div class="goal-num">03</div><div class="goal-text">Confirm or adjust Build / Buy / Backlog</div><div class="goal-sub">You know your tools and constraints better than anyone.</div></div>
+      <div class="goal-card"><div class="goal-num">04</div><div class="goal-text">Surface what's already in flight</div><div class="goal-sub">If someone on your team is solving one of these right now, we need to know.</div></div>
+    </div>
+    <div style="margin-top:32px"><div class="section-label">Pre-seeded task list — react to this</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Source area</th>
+              <th>Why it qualifies</th>
+              <th class="th-center">Rec</th>
+              <th class="th-center">Priority</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Growth / new business — CRM workflows, pipeline tracking, deal alerts, competitor monitoring, RFP response drafting, pitch customization, lead scoring</td>
+            <td class="td-area">Growth</td>
+            <td class="td-signal">High resource drain on pitch cycles; RFP drafting trainable via past responses</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-back">Backburner</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~6 hrs/wk &middot; ~288 hrs/yr</div>
+                <div class="impact-note">~3 people × ~2hrs/pitch on RFP first drafts, ~1 pitch/week</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Internal marketing — social scheduling, analytics dashboards, email campaigns, content approvals, website monitoring, content ideation, SEO optimization</td>
+            <td class="td-area">Marketing</td>
+            <td class="td-signal">Highly repeatable, largely automatable with existing martech</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~3 hrs/wk &middot; ~144 hrs/yr</div>
+                <div class="impact-note">~2 people × ~1.5hrs/week on scheduling, reporting, approvals</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">HR FAQ and compliance — policy Q&A bot, onboarding workflows, leave tracking, benefits enrollment, visa/certification alerts, regulatory monitoring, multi-state compliance tracking</td>
+            <td class="td-area">HR Compliance</td>
+            <td class="td-signal">Same 20 questions answered manually; bot has immediate ROI and morale impact</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-back">Backburner</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~6 hrs/wk &middot; ~288 hrs/yr</div>
+                <div class="impact-note">People & Culture: ~2hrs/day fielding repeat policy and benefits questions</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Recruiting and onboarding — resume screening, interview scheduling and question generation, candidate ranking, background checks, offer generation, 30/60/90 check-ins, task assignment</td>
+            <td class="td-area">Recruiting & Onboarding</td>
+            <td class="td-signal">High admin volume, highly repeatable, trainable via scorecards</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~6 hrs/wk &middot; ~288 hrs/yr</div>
+                <div class="impact-note">~3 people × ~2hrs/week per open role on scheduling and comms</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Performance reviews — cycle tracking, reminders, 360 collection, goal dashboards, benchmarking pulls, pay equity reports, performance trend analysis, flight risk scoring</td>
+            <td class="td-area">Performance & Reviews</td>
+            <td class="td-signal">Highly repeatable annual/quarterly cycle, most steps automatable</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~12 hrs/wk &middot; ~576 hrs/yr</div>
+                <div class="impact-note">73 employees × ~10min/cycle + manager overhead across all depts</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Internal communications — newsletter compilation, announcement distribution, engagement tracking, tone polish, sentiment analysis, meeting note summaries</td>
+            <td class="td-area">Internal Communications</td>
+            <td class="td-signal">Recurring output, trainable via past comms templates</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~2 hrs/wk &middot; ~96 hrs/yr</div>
+                <div class="impact-note">~2 people × ~1hr/week on newsletter compilation and distribution</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Employee engagement tracking — survey scheduling, recognition tracking, milestone notifications, survey analysis, attrition risk modeling</td>
+            <td class="td-area">Engagement</td>
+            <td class="td-signal">Recurring cycle, high value for surfacing team health signals early</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~2 hrs/wk &middot; ~72 hrs/yr</div>
+                <div class="impact-note">~2 people × ~45min/week on survey scheduling and recognition</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Learning and development — training tracking, certification reminders, LMS reporting, personalized learning recommendations, skill gap analysis</td>
+            <td class="td-area">Internal L&D</td>
+            <td class="td-signal">Highly repeatable tracking, trainable recommendations</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~2 hrs/wk &middot; ~72 hrs/yr</div>
+                <div class="impact-note">~2 people × ~45min/week on training tracking and LMS reporting</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Finance and accounting — recurring payments, expense approvals, invoice processing, budget and aging receivables alerts, month-end close, anomaly detection, profitability analysis, forecasting</td>
+            <td class="td-area">Finance & Accounting</td>
+            <td class="td-signal">Highly repeatable, significant time drain, largely rule-based</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D">Medium</span>
+                <div class="impact-hrs">~8 hrs/wk &middot; ~384 hrs/yr</div>
+                <div class="impact-note">73 employees × ~5min/week on expenses + Ops ~1hr/week reconciliation</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Tool stack management — license renewals, provisioning, usage reporting, inactive user alerts, cost optimization, vendor comparisons</td>
+            <td class="td-area">Tool & Tech Stack</td>
+            <td class="td-signal">High cost exposure if unmanaged; fully automatable monitoring</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-back">Backburner</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~4 hrs/wk &middot; ~192 hrs/yr</div>
+                <div class="impact-note">Ops: ~1hr/week on renewals, provisioning, and license audits</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF">
+            <td class="td-task">Time tracking and resource management — timesheet automation, availability tracking, utilization reporting, skill matching, capacity forecasting, bench time analysis</td>
+            <td class="td-area">Resource Management</td>
+            <td class="td-signal">Universal pain point; ClickUp can generate timesheets for approval</td>
+            <td class="td-center"><span class="pill pill-buy">Buy</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#FEE2E2;color:#991B1B;border:1px solid #FECACA">High</span>
+                <div class="impact-hrs">~12 hrs/wk &middot; ~576 hrs/yr</div>
+                <div class="impact-note">73 employees × ~10min/week correcting and submitting timesheets</div>
+              </td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td class="td-task">Legal and contract management — contract/insurance renewals, expiration alerts, first-pass contract review, clause extraction, redline summaries, compliance gap flagging</td>
+            <td class="td-area">Legal & Risk Management</td>
+            <td class="td-signal">High stakes if missed; AI contract review now mature</td>
+            <td class="td-center"><span class="pill pill-build">Build</span></td>
+            <td class="td-center"><span class="pill pill-semi">Semi-urgent</span></td>
+            <td class="td-impact">
+                <span class="impact-badge" style="background:#F3F4F6;color:#6B7280;border:1px solid #D1D5DB">Low</span>
+                <div class="impact-hrs">~3 hrs/wk &middot; ~144 hrs/yr</div>
+                <div class="impact-note">~3 people × ~1hr/week on contract review, renewals, routing</div>
+              </td>
+          </tr>
+          <tr style="background:#FFFFFF; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FAFAFA; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          <tr style="background:#FFFFFF; opacity:0.5">
+            <td class="td-task" style="color:#aaa; font-style:italic">Add task…</td>
+            <td class="td-area"></td><td class="td-signal"></td>
+            <td class="td-center"></td><td class="td-center"></td>
+            <td class="td-impact"></td>
+          </tr>
+          </tbody>
+        </table></div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>After this session:</strong> Tasks feed into the org-wide Blueprint tracker. The exec team scores and assigns Build / Buy / Backlog in Phase 3. Your input here directly shapes what gets built and in what order.</p>
+    </div>
+  </div>
+
+  <!-- ── EQUIP TAB ── -->`,
+  equip: `<div class="panel-header" style="border-bottom:3px solid var(--blue); padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:var(--blue)">PILLAR 02 · EQUIP · TOOLS &amp; ACCESS</div>
+      <h2>Get everyone on the <em style="color:var(--blue)">right tools.</em></h2>
+      <p class="doc-subhead">100% of staff on Claude + MSQ Assist with real onboarding — not just access. Then standardize the broader toolkit so no one is blocked by cost, awareness, or the wrong setup.</p>
+    </div>
+
+    <div class="section-label">The mandate</div>
+    <div class="context-box" style="background:#EFF6FF;border-left-color:var(--blue)">Power users are the starting point, not the end state. The goal is that every person at Big Spaceship can use AI tools for their actual work — not just the people who figured it out on their own. Access without onboarding is not Equip.</div>
+
+    <div class="section-label" style="margin-top:32px">Phase 1 — Full company on Claude + MSQ Assist</div>
+    <div class="phase-steps">
+      <div class="phase-step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Audit current access</div>
+          <div class="step-detail">Who has Claude? Who has MSQ Assist? Who's using what, how often, and for what? Identify the gaps before provisioning anything new.</div>
+        </div>
+        <div class="step-tag">Wk 1</div>
+      </div>
+      <div class="phase-step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Procure and provision</div>
+          <div class="step-detail">Close the access gaps. Every person gets a seat. No one is blocked by cost or approval lag.</div>
+        </div>
+        <div class="step-tag">Wk 1–2</div>
+      </div>
+      <div class="phase-step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Onboard by discipline — not one-size-fits-all</div>
+          <div class="step-detail">MSQ Assist workshops tailored to BS roles: strategists, PMs, producers, creatives, account leads. Each session is practical and use-case specific — not a product demo.</div>
+        </div>
+        <div class="step-tag">Wk 2–4</div>
+      </div>
+      <div class="phase-step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">Define what "good" looks like per discipline</div>
+          <div class="step-detail">Use-case playbooks so every person knows what they're expected to be doing with these tools in their day-to-day work. Not aspirational — concrete and specific.</div>
+        </div>
+        <div class="step-tag">Wk 3–5</div>
+      </div>
+      <div class="phase-step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-title">Track adoption — weekly</div>
+          <div class="step-detail">Active users by tool and discipline. 60-day retention check: are habits forming or are tools being abandoned? Pair resistors with champions, not mandates.</div>
+        </div>
+        <div class="step-tag">Ongoing</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Phase 2 — Broader toolkit standardization</div>
+    <div class="goals-grid">
+      <div class="goal-card">
+        <div class="goal-num">Tool audit</div>
+        <div class="goal-text">Full inventory of current tool usage by discipline</div>
+        <div class="goal-sub">What's in use, what's underused, what's duplicated, what's missing</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">Core toolkit</div>
+        <div class="goal-text">Standardize a core AI toolkit org-wide</div>
+        <div class="goal-sub">Every discipline has a default set — not everyone running their own experiments in isolation</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">Integration</div>
+        <div class="goal-text">Connected workflows, not standalone tools</div>
+        <div class="goal-sub">Tools that talk to each other. ClickUp as the operational spine. No fragmentation.</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">Decisions pending</div>
+        <div class="goal-text">Google Slides vs. Office ecosystem</div>
+        <div class="goal-sub">Active friction flagged by team. No org-level resolution yet — needs a call before workflow can standardize.</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">Tools already in use</div>
+    <div style="border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-bottom:48px">
+      ${[
+        ["Claude","All disciplines","Active — uneven adoption. Power users in Account, Strategy, Creative. Gaps in Production and Internal Ops.","Expand access + onboarding"],
+        ["MSQ Assist","All disciplines","Available — limited structured onboarding to date.","Workshops by role"],
+        ["Dropbox Dash","Knowledge mgmt","Evaluated with Alison. Strong fit for past project surfacing.","Pilot → decide"],
+        ["ClickUp","PM / Delivery","In use — inconsistent configuration and adoption across teams.","Standardize as operational spine"],
+        ["ElevenLabs","Innovation / Field Notes","Targeted for Field Notes audio brief initiative (Initiative 08).","Pilot with Dropbox pod"],
+        ["ComfyUI","Creative / Production","Targeted for GenAI creative production (Initiative 09).","Pilot in concepting phase"],
+      ].map(([tool, area, status, next], i) => `
+      <div style="display:grid;grid-template-columns:140px 140px 1fr 160px;gap:0;border-bottom:1px solid var(--rule);background:${i%2===0?'#fff':'#FAFAFA'}">
+        <div style="padding:12px 14px;font-size:13px;font-weight:500;color:var(--ink);border-right:1px solid var(--rule)">${tool}</div>
+        <div style="padding:12px 14px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-light);border-right:1px solid var(--rule);display:flex;align-items:center">${area}</div>
+        <div style="padding:12px 14px;font-size:12px;color:var(--ink-mid);line-height:1.5;border-right:1px solid var(--rule)">${status}</div>
+        <div style="padding:12px 14px;font-size:12px;color:var(--blue);font-style:italic">${next}</div>
+      </div>`).join('')}
+      <div style="display:grid;grid-template-columns:140px 140px 1fr 160px;background:#F7F7F7;border-top:1px solid var(--rule)">
+        <div style="padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Tool</div>
+        <div style="padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Area</div>
+        <div style="padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Status</div>
+        <div style="padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Next step</div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <div>→</div>
+      <p><strong>Success looks like:</strong> 100% of staff with active accounts and 60-day retention confirmed. Every discipline has a use-case playbook. No one is running a tool that three other people don't know exists.</p>
+    </div>
+  </div>
+
+  <!-- ── ENABLE TAB ── -->`,
+  enable: `<div class="panel-header" style="border-bottom:3px solid var(--emerald); padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:var(--emerald)">PILLAR 03 · ENABLE · TRAINING &amp; KNOWLEDGE SHARING</div>
+      <h2>Make AI capability <em style="color:var(--emerald)">everyone's capability.</em></h2>
+      <p class="doc-subhead">Recurring, practical, discipline-specific. Not a one-and-done lunch and learn. The goal is a culture where using AI is normal — expected — and where it's actually weird not to.</p>
+    </div>
+
+    <div class="section-label">The principle</div>
+    <div class="context-box" style="background:#ECFDF5;border-left-color:var(--emerald)">Distributed capability, not concentrated expertise. Power users are the starting point — not the destination. If AI capability lives in three people, the initiative has failed. If it lives in seventy-three, it's working.</div>
+
+    <div class="section-label" style="margin-top:32px">Training structure</div>
+    <div class="phase-steps">
+      <div class="phase-step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Set training priorities by discipline</div>
+          <div class="step-detail">Based on gap-fill session outputs. Each discipline's training agenda is built from their actual task list — not a generic AI overview.</div>
+        </div>
+        <div class="step-tag">Mths 1–2</div>
+      </div>
+      <div class="phase-step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">First round of hands-on sessions</div>
+          <div class="step-detail">Practical, not lecture-based. Everyone builds something in the session. Account team practices SOW drafting. Creatives practice brief expansion. Producers practice estimate generation. Strategy practices research synthesis.</div>
+        </div>
+        <div class="step-tag">Mths 2–3</div>
+      </div>
+      <div class="phase-step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Lunch and learns — wins only</div>
+          <div class="step-detail">Short, regular, celebratory. Someone shares a thing that worked. No theory, no slides. 20 minutes. These are how knowledge spreads laterally, not just top-down.</div>
+        </div>
+        <div class="step-tag">Mths 2–12</div>
+      </div>
+      <div class="phase-step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">Pair resistors with champions</div>
+          <div class="step-detail">Not mandates — mentorship. Early adopters are identified and given a light responsibility to bring one person along. This is how culture shifts happen in creative orgs.</div>
+        </div>
+        <div class="step-tag">Mths 2–4</div>
+      </div>
+      <div class="phase-step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-title">Establish a recurring cadence</div>
+          <div class="step-detail">Training doesn't end after month two. Quarterly discipline-specific sessions tied to what's newly live. New tools, new agents, new workflows — regular rhythm, not one-time event.</div>
+        </div>
+        <div class="step-tag">Mths 4–12</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top:40px">How we celebrate and spread wins</div>
+    <div class="goals-grid">
+      <div class="goal-card">
+        <div class="goal-num">Slack</div>
+        <div class="goal-text">#ai-wins channel or equivalent</div>
+        <div class="goal-sub">Low-friction place to share what worked. Anyone posts, anyone learns. No approval required.</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">All-hands</div>
+        <div class="goal-text">Regular AI update segment</div>
+        <div class="goal-sub">What's live, what saved time, what surprised us. Public recognition for early adopters.</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">Case studies</div>
+        <div class="goal-text">Internal "before and after" write-ups</div>
+        <div class="goal-sub">Short format. Task, how it was done before, how it's done now, time saved. Feeds the external story too.</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">Onboarding</div>
+        <div class="goal-text">AI posture from day one for new hires</div>
+        <div class="goal-sub">Not an optional add-on. AI tool access and a first session are part of the standard onboarding track.</div>
+      </div>
+    </div>
+
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>Success looks like:</strong> Every discipline has completed at least one hands-on session. Lunch and learns are running on a regular cadence. Power users are no longer the only people doing interesting things with AI.</p>
+    </div>
+  </div>
+
+  <!-- ── COMMUNICATE TAB ── -->`,
+  communicate: `<div class="panel-header" style="border-bottom:3px solid var(--violet); padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:var(--violet)">PILLAR 04 · COMMUNICATE · FULL COMMS STRATEGY</div>
+      <h2>Six audiences.<br><em style="color:var(--violet)">One honest story.</em></h2>
+      <p class="doc-subhead">Each audience has different needs, different concerns, and different things they need to hear. Honest about limitations — that's a feature, not a weakness. Human craft remains irreplaceable in key areas and that message is part of what makes Big Spaceship's story worth telling.</p>
+    </div>
+
+    <div class="section-label">The principle</div>
+    <div class="context-box" style="background:#F5F3FF;border-left-color:var(--violet)">Don't overclaim. AI is a capability amplifier — it makes the human work better, faster, and more consistent. The places where human judgment is non-negotiable are the places where Big Spaceship's value is highest. Lead with that.</div>
+
+    <div class="section-label" style="margin-top:32px">Audience map</div>
+    <div style="border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-bottom:48px">
+      ${[
+        ["New hires","Onboarding","AI tools and posture from day one. Not optional — part of standard onboarding. What Big Spaceship uses, why, and what's expected of every person.","Onboarding doc + first session · Mths 1–2"],
+        ["Existing clients","Relationship","Honest, clear explanation of where AI is used in our process. What it improves, where human judgment is irreplaceable, how it affects their work. Not a capabilities deck — a conversation.","Client-specific talking points · Mths 2–4"],
+        ["New business / prospects","Sales","AI as a competitive differentiator. Specific examples of speed, consistency, and scale. The RFP agent, pod agents, Field Notes. Concrete — not theoretical.","New biz AI section + case studies · Mths 3–6"],
+        ["All-staff","Internal","What's live, what's coming, what it means for their work. Regular updates so no one feels left behind or surprised. Wins celebrated publicly and specifically.","All-hands updates · Ongoing"],
+        ["Exec / board","Reporting","KPI progress against Y1 targets. Hours reclaimed, adoption rates, outsourcing costs eliminated. MSQ SteerCo reporting. Honest about what's working and what isn't.","Quarterly KPI report · Ongoing"],
+        ["Recruiting / talent","Employer brand","Big Spaceship as an AI-forward place to work. Specific, not generic. What tools people use, what they're learning, what the culture around AI looks like. For candidates who want to be somewhere exploratory.","Careers page + JD language · Mths 3–5"],
+      ].map(([audience, type, what, when], i) => `
+      <div style="display:grid;grid-template-columns:140px 100px 1fr 200px;gap:0;border-bottom:1px solid var(--rule);background:${i%2===0?'#fff':'#FAFAFA'}">
+        <div style="padding:14px;font-size:13px;font-weight:500;color:var(--ink);border-right:1px solid var(--rule)">${audience}</div>
+        <div style="padding:14px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-light);border-right:1px solid var(--rule);display:flex;align-items:flex-start;padding-top:16px">${type}</div>
+        <div style="padding:14px;font-size:12px;color:var(--ink-mid);line-height:1.6;border-right:1px solid var(--rule)">${what}</div>
+        <div style="padding:14px;font-size:12px;color:var(--violet);font-style:italic;line-height:1.5">${when}</div>
+      </div>`).join('')}
+      <div style="display:grid;grid-template-columns:140px 100px 1fr 200px;background:#F7F7F7;border-top:1px solid var(--rule)">
+        <div style="padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Audience</div>
+        <div style="padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Type</div>
+        <div style="padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Message</div>
+        <div style="padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Materials + timing</div>
+      </div>
+    </div>
+
+    <div class="section-label">External positioning — Initiative 10</div>
+    <div class="goals-grid">
+      <div class="goal-card">
+        <div class="goal-num">Press</div>
+        <div class="goal-text">3+ major bylines in Y1</div>
+        <div class="goal-sub">Fast Company, Ad Age, Muse by Clio. AI + creativity angle. Taryn as author or subject.</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">Speaking</div>
+        <div class="goal-text">2+ speaking engagements in Y1</div>
+        <div class="goal-sub">SXSW, Web Summit, Cannes. Demonstrating AI-native thinking in creative work — not AI in general.</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">Podcast</div>
+        <div class="goal-text">Field Notes as owned media</div>
+        <div class="goal-sub">Targeting CMOs, not peers. Regular cadence. AI-assisted production via ElevenLabs — same voice, consistent brand.</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">GEO</div>
+        <div class="goal-text">Generative Engine Optimization</div>
+        <div class="goal-sub">Build the expertise and client offerings before competitors catch on. Coordinate with MSQ External Positioning workstream.</div>
+      </div>
+    </div>
+
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>The red line:</strong> Never overclaim. If a client asks whether AI replaced a human on their account, the honest answer is "no — it made the human faster and more consistent." That's the story. It's a good one.</p>
+    </div>
+  </div>`,
+
+  foundations: `<div class="panel-header" style="border-bottom:3px solid #1B4F72; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#1B4F72">PILLAR 01 · ELIMINATE · THEME 1 OF 3</div>
+      <h2>Foundations — <em style="color:#1B4F72">Initiatives 1–3</em></h2>
+      <p class="doc-subhead">Get everyone on the tools. Map the pain. Build the infrastructure. Nothing in Theme 2 or Theme 3 scales without this in place first.</p>
+    </div>
+    <div class="phase-steps">
+      <div class="phase-step" style="align-items:flex-start">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#1B4F72;line-height:1">01</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#5B8DB8;margin-top:4px">Mths 1–2</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Identify Tasks That Suck — By Department <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Speed + Morale</span></div>
+          <div class="step-detail" style="margin-bottom:8px">Structured sessions across every discipline to surface the lowest-value, most time-consuming tasks. Prioritize by frequency × frustration — not executive intuition. Output: a scored Kill List with Build / Buy / Backlog per task. Connects directly to MSQ's workflow mapping and AI efficiency submission.</div>
+          <div style="font-size:12px;color:#1B4F72;font-style:italic;padding:6px 10px;background:#EBF5FB;border-radius:4px;line-height:1.5">→ Workflow mapping already complete across all disciplines. Gap-fill sessions scheduled for Brand Strategy, Creative, Production, Account &amp; PM, and Internal Ops — see the Gap-Fill Docs tabs.</div>
+        </div>
+      </div>
+      <div class="phase-step" style="align-items:flex-start">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#1B4F72;line-height:1">02</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#5B8DB8;margin-top:4px">Mths 1–3</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Entire Company on Claude + MSQ Assist <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Adoption + Culture</span></div>
+          <div class="step-detail" style="margin-bottom:8px">Claude as the default thinking tool: briefs, research, drafts, analysis. MSQ Assist workshops tailored to BS roles. Track adoption weekly — pair resistors with champions, not mandates. Department use-case playbooks so people know what 'good' looks like.</div>
+          <div style="font-size:12px;color:#1B4F72;font-style:italic;padding:6px 10px;background:#EBF5FB;border-radius:4px;line-height:1.5">→ Individual staff already on Claude and Dropbox Dash. Power users identified across Account, Strategy, and Creative. Full onboarding plan in the Equip tab.</div>
+        </div>
+      </div>
+      <div class="phase-step" style="align-items:flex-start;border-bottom:none">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#1B4F72;line-height:1">03</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#5B8DB8;margin-top:4px">Mths 2–4</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">All Projects Run in the Same Process <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Consistency + Scale</span></div>
+          <div class="step-detail" style="margin-bottom:8px">Define the Big Spaceship AI-integrated workflow: brief → research → concepting → production → delivery. ClickUp as the operational spine — finalize configuration and org-wide adoption. AI checkpoints baked in as defaults, not add-ons. Align with MSQ's open technology decisions on platform routing.</div>
+          <div style="font-size:12px;color:#1B4F72;font-style:italic;padding:6px 10px;background:#EBF5FB;border-radius:4px;line-height:1.5">→ Google Slides vs. Office ecosystem: active friction flagged by team. No org-level resolution yet — needs a decision before workflow can standardize.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>Budget:</strong> Initiatives 1–3 run within existing budget. No SteerCo escalation needed. Decision rule: start immediately, measure everything.</p>
+    </div>
+  </div>`,
+
+  efficiency: `<div class="panel-header" style="border-bottom:3px solid #1E6B45; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#1E6B45">PILLAR 01 · ELIMINATE · THEME 2 OF 3</div>
+      <h2>Efficiency — <em style="color:#1E6B45">Initiatives 4–7</em></h2>
+      <p class="doc-subhead">Remove friction from every department and every client pod. This is where we find the margin — hours reclaimed, outsourcing costs eliminated, senior time freed for craft.</p>
+    </div>
+    <div class="phase-steps">
+      <div class="phase-step" style="align-items:flex-start">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#1E6B45;line-height:1">04</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4D9970;margin-top:4px">Mths 3–6</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Department Custom Agents <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Time Savings + Margin</span></div>
+          <div class="step-detail" style="margin-bottom:8px">Each department builds or adopts an agent tuned to their specific workflow. Account &amp; PM: SOW drafting (highest priority), brief expansion, dynamic client playbook. Strategy: research synthesis, competitive landscape, audience analysis. Production: estimate generation, vendor comparison, BA clearance. Finance: reporting, invoice reconciliation, resource planning. Each department owns and iterates their agent — not a top-down deployment.</div>
+          <div style="font-size:12px;color:#1E6B45;font-style:italic;padding:6px 10px;background:#E9F7EF;border-radius:4px;line-height:1.5">→ Claude brief expansion live with Account team (Courtney, AP, Darias). CJ exploring dynamic client playbook. Erica + Natalie building AI case study bank. Post-mortem + QBR standardization underway (Chloe).</div>
+        </div>
+      </div>
+      <div class="phase-step" style="align-items:flex-start">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#1E6B45;line-height:1">05</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4D9970;margin-top:4px">Mths 4–7</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Client Pod Custom Agents <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Billable Hour Recapture</span></div>
+          <div class="step-detail">Every client team builds agents specific to their account context, client voice, and deliverable types. Chase: brand voice, compliance guardrails, format templates. Botox/Allergan: AI storyboarding to replace outsourced illustration. Paze: social copy versioning across audiences and formats. Dropbox: case study first drafts from campaign briefs and results. 60-day pilot per pod before scaling — track outsourcing costs eliminated and hours recaptured.</div>
+        </div>
+      </div>
+      <div class="phase-step" style="align-items:flex-start">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#1E6B45;line-height:1">06</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4D9970;margin-top:4px">Mths 3–5</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">RFP / RFI Response Automation <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· New Biz Velocity</span></div>
+          <div class="step-detail" style="margin-bottom:8px">Build an Exploration Agent: ingests RFP, surfaces relevant case studies, generates positioning angles. Connected to case study repository (Initiative 07) for live evidence retrieval. Outputs a first-draft response in under 2 hours — down from the current 1–2 days.</div>
+          <div style="font-size:12px;color:#1E6B45;font-style:italic;padding:6px 10px;background:#E9F7EF;border-radius:4px;line-height:1.5">→ BS Exploration Agent Claude project already started. Formalizing and deploying. RFI Agent flagged as Priority 1 in workflow mapping.</div>
+        </div>
+      </div>
+      <div class="phase-step" style="align-items:flex-start;border-bottom:none">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#1E6B45;line-height:1">07</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#4D9970;margin-top:4px">Mths 2–5</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Case Study + Talent Repositories <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Institutional Memory</span></div>
+          <div class="step-detail" style="margin-bottom:8px">Case Study Repository: tagged, searchable library of BS work by client, industry, format, and outcome — AI-indexed so the RFP agent and account teams can surface the right proof fast. Freelance / Talent Repository: profiles, skills, rates, past BS project history — find the right person in minutes, not days.</div>
+          <div style="font-size:12px;color:#1E6B45;font-style:italic;padding:6px 10px;background:#E9F7EF;border-radius:4px;line-height:1.5">→ Case study writing identified as Priority 2 across Brand Strategy. Past project referencing flagged as Priority 2 org-wide.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>Budget:</strong> Initiatives 4–7 require SteerCo authority (&gt;£50K). Business cases submitted per initiative before full build-out. 60-day pilots generate the evidence; SteerCo approves the scale.</p>
+    </div>
+  </div>`,
+
+  innovation: `<div class="panel-header" style="border-bottom:3px solid #6B2D8B; padding-bottom:24px; margin-bottom:32px;">
+      <div class="eyebrow" style="color:#6B2D8B">PILLAR 01 · ELIMINATE · THEME 3 OF 3</div>
+      <h2>Innovation — <em style="color:#6B2D8B">Initiatives 8–10</em></h2>
+      <p class="doc-subhead">How AI changes what we make and how we show up. New formats, new models, new work. This is the differentiation story — where Big Spaceship stops being an agency that uses AI and starts being one that thinks and creates differently because of it.</p>
+    </div>
+    <div class="phase-steps">
+      <div class="phase-step" style="align-items:flex-start">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#6B2D8B;line-height:1">08</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#9B59B6;margin-top:4px">Mths 4–8</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Field Notes — AI-Native Client Communication <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Client Experience + PR</span></div>
+          <div class="step-detail" style="margin-bottom:8px">Replace decks and meeting recaps with something clients actually want to receive. Field Notes: AI-generated voice memos and audio briefs delivered to clients post-meeting, built on ElevenLabs voice synthesis — same voice, consistent brand feel. Extend to thought leadership: weekly Field Notes on culture, AI, and creative for external audience. Positions Big Spaceship as a genuinely innovative partner, not just a vendor.</div>
+          <div style="font-size:12px;color:#6B2D8B;font-style:italic;padding:6px 10px;background:#F5EEF8;border-radius:4px;line-height:1.5">→ Pilot with Dropbox client team — they're already primed for it.</div>
+        </div>
+      </div>
+      <div class="phase-step" style="align-items:flex-start">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#6B2D8B;line-height:1">09</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#9B59B6;margin-top:4px">Mths 3–12</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">GenAI for Creative Production <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Creative + Cost</span></div>
+          <div class="step-detail">Use generative AI inside the creative process, not just around it. ComfyUI for image and video generation: concept visualization, storyboarding, comp production. AI storyboarding as default for pre-production — reduce outsourcing, accelerate revision cycles. Define the Big Spaceship creative standard for GenAI work: when it's right, when human craft is non-negotiable. Botox/Allergan: explore AI-assisted visual comp for regulated beauty content. Track outsourcing costs eliminated and concept iteration speed.</div>
+        </div>
+      </div>
+      <div class="phase-step" style="align-items:flex-start;border-bottom:none">
+        <div style="min-width:56px">
+          <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:600;color:#6B2D8B;line-height:1">10</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#9B59B6;margin-top:4px">Mths 1–12</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Thought Leadership &amp; External Positioning <span style="font-size:11px;font-weight:400;color:var(--ink-light);font-style:italic">· Agency Brand + New Biz</span></div>
+          <div class="step-detail">GEO (Generative Engine Optimization): build expertise and client offerings before competitors catch on. Press: Fast Company, Ad Age, Muse by Clio — at least 3 major bylines on AI + creativity in Y1. Speaking: SXSW, Web Summit, Cannes — 2+ slots demonstrating AI-native thinking. The Field Notes podcast as ongoing owned media targeting CMOs. Coordinate with MSQ External Positioning workstream for group amplification.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note" style="margin-top:48px">
+      <div>→</div>
+      <p><strong>Budget:</strong> Initiative 9 (full-scale GenAI creative infrastructure) requires ExCo escalation (&gt;£250K). Initiatives 8 and 10 can begin within existing budget. Initiative 10 starts immediately — it runs the full year.</p>
+    </div>
+  </div>`,
+
+  msq: `<div class="overview-hero">
+      <div class="overview-eyebrow">MSQ SteerCo Submission · March 2026 · Confidential</div>
+      <h1>FY27 AI Plan —<br><em>Big Spaceship.</em></h1>
+      <p>Submitted to MSQ Automation &amp; Products SteerCo. This is Big Spaceship's agency-level implementation plan within the broader group transformation. It is designed to run in parallel with — and feed into — MSQ governance.</p>
+    </div>
+
+    <div class="section-label" style="margin-top:0">Our approach</div>
+    <div class="kpis-grid" style="margin-bottom:32px">
+      <div class="kpi-card">
+        <div class="kpi-label">Build on what exists</div>
+        <div class="kpi-text">Workflow mapping across all disciplines is complete. Teams react and refine — they don't start from scratch.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">60-day pilots, then scale</div>
+        <div class="kpi-text">Every initiative starts with a pilot that produces real data before committing to full build-out. Vendor projections are not our baseline.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Distribute capability</div>
+        <div class="kpi-text">Power users are the starting point, not the end state. Every person should be able to use AI for their actual work.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Be honest</div>
+        <div class="kpi-text">Limitations are part of the story. Human craft remains irreplaceable in key areas — that message is a feature, not a weakness.</div>
+      </div>
+    </div>
+
+    <div class="section-label">MSQ SteerCo workstream alignment</div>
+    <div class="table-wrap" style="margin-bottom:48px">
+      <table>
+        <thead>
+          <tr>
+            <th>MSQ SteerCo Workstream</th>
+            <th>Big Spaceship Initiative(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff"><td class="td-task">AI Transformation</td><td class="td-signal">01 (Pain Audit), 02 (Full Adoption), 03 (Unified Process)</td></tr>
+          <tr style="background:#FAFAFA"><td class="td-task">Products</td><td class="td-signal">04 (Dept Agents), 05 (Pod Agents), 06 (RFP Automation)</td></tr>
+          <tr style="background:#fff"><td class="td-task">Tech, Policies &amp; Guardrails</td><td class="td-signal">03 (ClickUp / Process), 09 (GenAI Standards)</td></tr>
+          <tr style="background:#FAFAFA"><td class="td-task">Hearts &amp; Minds / Upskilling</td><td class="td-signal">02 (Claude + Assist Onboarding), 10 (Thought Leadership)</td></tr>
+          <tr style="background:#fff"><td class="td-task">External Positioning &amp; Case Studies</td><td class="td-signal">07 (Case Study Repo), 08 (Field Notes), 10 (PR / Speaking)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-label">Decision rights &amp; investment</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px">
+      <div style="border:1px solid var(--rule);border-radius:8px;padding:18px 20px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#1B4F72;margin-bottom:8px">Agency Autonomy</div>
+        <div style="font-size:20px;font-weight:600;color:var(--ink);margin-bottom:4px">&lt; £50K</div>
+        <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;margin-bottom:10px">Initiatives 1–3. Foundations work runs on existing budget — no escalation needed.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:#1B4F72">Pain audit · Claude onboarding · ClickUp</div>
+      </div>
+      <div style="border:1px solid var(--rule);border-radius:8px;padding:18px 20px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#1E6B45;margin-bottom:8px">SteerCo Authority</div>
+        <div style="font-size:20px;font-weight:600;color:var(--ink);margin-bottom:4px">&gt; £50K</div>
+        <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;margin-bottom:10px">Initiatives 4–7. Dept agents, pod agents, repositories — business case required.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:#1E6B45">Custom agents · RFP automation · Repos</div>
+      </div>
+      <div style="border:1px solid var(--rule);border-radius:8px;padding:18px 20px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#6B2D8B;margin-bottom:8px">ExCo Escalation</div>
+        <div style="font-size:20px;font-weight:600;color:var(--ink);margin-bottom:4px">&gt; £250K</div>
+        <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;margin-bottom:10px">Initiative 9. Full-scale GenAI creative production infrastructure — group sign-off.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:#6B2D8B">GenAI creative production</div>
+      </div>
+    </div>
+
+    <div class="section-label">10 initiatives at a glance</div>
+    <div class="table-wrap" style="margin-bottom:48px">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:40px">#</th>
+            <th>Initiative</th>
+            <th>Theme</th>
+            <th>Timing</th>
+            <th>Budget auth.</th>
+            <th>Key details</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ["01","Identify Tasks That Suck — By Department","Foundations","Mths 1–2","Existing","Run department-by-department sessions to map lowest-value, most time-consuming tasks. Prioritize by frequency × frustration. Output: a living Kill List of tasks to automate, eliminate, or simplify."],
+            ["02","Entire Company on Claude + MSQ Assist","Foundations","Mths 1–3","Existing","Full onboarding — every person, every role — with real training, not just access. Claude as the default thinking tool. MSQ Assist super-user workshops tailored to BS roles. Use-case playbooks per department."],
+            ["03","All Projects Run in the Same Process","Foundations","Mths 2–4","Existing","Define the BS AI-integrated workflow: brief → research → concepting → production → delivery. ClickUp as the operational spine. AI checkpoints baked in as defaults, not add-ons."],
+            ["04","Department Custom Agents","Efficiency","Mths 3–6","SteerCo","Strategy: research synthesis, competitive landscape, audience analysis. Production: estimate generation, vendor comparison, timeline modeling. Finance: reporting, invoice reconciliation. Each department owns and iterates their own agent."],
+            ["05","Client Pod Custom Agents","Efficiency","Mths 4–7","SteerCo","Chase: brand voice, compliance guardrails, format templates. Botox/Allergan: AI storyboarding to replace outsourced illustration. Paze: social copy versioning. Dropbox: case study first drafts from campaign briefs and results."],
+            ["06","RFP / RFI Response Automation","Efficiency","Mths 3–5","SteerCo","Exploration Agent ingests RFP, surfaces relevant case studies, generates positioning angles. Connected to case study repository (07) for live evidence retrieval. First-draft response in under 2 hours. Already in progress via BS Exploration Agent Claude project."],
+            ["07","Case Study + Talent Repositories","Efficiency","Mths 2–5","SteerCo","Case Study Repository: tagged, searchable library of BS work — client, industry, format, outcome. AI-indexed for fast retrieval. Freelance / Talent Repository: profiles, skills, rates, past BS project history. Both accessible to the whole team, updated continuously."],
+            ["08","Field Notes — AI-Native Client Communication","Innovation","Mths 4–8","Existing","AI-generated voice memos and audio briefs delivered to clients post-meeting. Built on ElevenLabs voice synthesis — same voice, consistent brand feel. Extend to weekly external thought leadership. Pilot with Dropbox client team."],
+            ["09","GenAI for Creative Production","Innovation","Mths 3–12","ExCo","ComfyUI for image and video: concept visualization, storyboarding, comp production. AI storyboarding as default for pre-production. Define the BS creative standard for GenAI work: when it's right, when human craft is non-negotiable. Botox campaign: AI-assisted visual comp for regulated beauty content."],
+            ["10","Thought Leadership &amp; External Positioning","Innovation","Mths 1–12","Existing","GEO offerings before competitors catch on. Fast Company, Ad Age, Muse by Clio: 3+ major bylines in Y1. SXSW, Web Summit, Cannes: speaking slots demonstrating AI-native thinking. Field Notes podcast targeting CMOs. Coordinate with MSQ External Positioning workstream."],
+          ].map(([num, name, theme, timing, budget, detail], i) => {
+            const themeColor = theme === "Foundations" ? "#1B4F72" : theme === "Efficiency" ? "#1E6B45" : "#6B2D8B";
+            const themeBg = theme === "Foundations" ? "#EBF5FB" : theme === "Efficiency" ? "#E9F7EF" : "#F5EEF8";
+            const budgetColor = budget === "Existing" ? "#16A34A" : budget === "SteerCo" ? "#1E6B45" : "#6B2D8B";
+            return `<tr style="background:${i%2===0?'#fff':'#FAFAFA'}">
+              <td class="td-area" style="font-size:14px;font-weight:600;color:${themeColor};padding-top:14px">${num}</td>
+              <td class="td-task">${name}</td>
+              <td class="td-area"><span style="background:${themeBg};color:${themeColor};padding:2px 7px;border-radius:4px;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Mono',monospace;white-space:nowrap">${theme}</span></td>
+              <td class="td-area">${timing}</td>
+              <td class="td-area" style="color:${budgetColor}">${budget}</td>
+              <td class="td-signal">${detail}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:48px;padding:14px 18px;border:1px solid var(--rule);border-radius:8px;background:var(--surface)">
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px">FY27 AI Efficiency Planning Template — Big Spaceship</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-light)">Shahil's MSQ template · all 10 initiatives · roles, milestones, complexity, KPIs</div>
+      </div>
+      <a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,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" download="FY27_Big_Spaceship_AI_Plan.xlsx" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#fff;background:var(--ink);padding:8px 16px;border-radius:4px;text-decoration:none;white-space:nowrap;flex-shrink:0">↓ Download .xlsx</a>
+    </div>
+
+    <div class="section-label">Y1 KPI targets</div>
+    <div class="table-wrap" style="margin-bottom:48px">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Y1 Target</th>
+            <th>Linked initiatives</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ["AI Tool Adoption","100% of staff actively using Claude + Assist","02"],
+            ["Hours Saved / Month","20%+ reduction in low-value task time","01, 04, 05"],
+            ["Outsourcing Costs Eliminated","Measurable reduction vs. prior year","05, 09"],
+            ["RFP Response Time","First draft in under 2 hours (from 1–2 days)","06"],
+            ["New Biz Win Rate","Maintain or improve vs. prior year","06, 07, 10"],
+            ["Client Satisfaction","100% retention · NPS neutral or positive","03, 08"],
+            ["External Presence","3+ press placements · 2+ speaking engagements","10"],
+            ["Agent Deployments","1+ active agent per department and per client pod","04, 05"],
+          ].map(([metric, target, linked], i) =>
+            `<tr style="background:${i%2===0?'#fff':'#FAFAFA'}">
+              <td class="td-task" style="font-weight:500">${metric}</td>
+              <td class="td-signal" style="color:var(--orange)">${target}</td>
+              <td class="td-area">${linked}</td>
+            </tr>`
+          ).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-label">What we need from the centre</div>
+    <div class="phase-steps">
+      <div class="phase-step"><div class="step-num">01</div><div class="step-content"><div class="step-title">MSQ Assist built for discipline-specific use cases</div><div class="step-detail">Not just general chat — strategists, PMs, producers, and creatives each have different workflows that need to be served specifically.</div></div></div>
+      <div class="phase-step"><div class="step-num">02</div><div class="step-content"><div class="step-title">ClickUp roadmap visibility</div><div class="step-detail">Our AI-embedding work needs to be compatible with group direction. Share what's planned so we don't build against it.</div></div></div>
+      <div class="phase-step"><div class="step-num">03</div><div class="step-content"><div class="step-title">Shared learnings from other MSQ agencies</div><div class="step-detail">Especially on RFP automation and client pod tooling — if someone else has already run a pilot, we want to learn from it, not duplicate it.</div></div></div>
+      <div class="phase-step" style="border-bottom:none"><div class="step-num">04</div><div class="step-content"><div class="step-title">SteerCo process clarity</div><div class="step-detail">What does a business case submission look like, and what is the review cadence? We'll need this for Initiatives 4–7.</div></div></div>
+    </div>
+
+  </div>`,
+};
+
+const NAV_TABS = [
+  { group: "Pillar 01 — Eliminate", tabs: [
+    { id: "msq",          label: "Overview" },
+    { id: "foundations",  label: "Foundations" },
+    { id: "efficiency",   label: "Efficiency" },
+    { id: "innovation",   label: "Innovation" },
+  ]},
+  { group: "Gap-Fill Docs", tabs: [
+    { id: "orgwide",    label: "Org-Wide" },
+    { id: "brand",      label: "Brand Strategy" },
+    { id: "creative",   label: "Creative & Design" },
+    { id: "production", label: "Production" },
+    { id: "apm",        label: "Account & PM" },
+    { id: "internal",   label: "Internal Ops" },
+  ]},
+  { group: "Pillars 02–04", tabs: [
+    { id: "equip",       label: "Equip" },
+    { id: "enable",      label: "Enable" },
+    { id: "communicate", label: "Communicate" },
+  ]},
+];
+
+const ACCENT = {
+  msq: "#1a1a1a",
+  foundations: "#1B4F72", efficiency: "#1E6B45", innovation: "#6B2D8B",
+  orgwide: "#1a1a1a", brand: "#E8612A", creative: "#3B82F6",
+  production: "#10B981", apm: "#E8612A", internal: "#8B5CF6",
+  equip: "#3B82F6", enable: "#10B981", communicate: "#8B5CF6",
+  overview: "#1a1a1a",
+};
+
+let active = 'overview';
+
+function switchTab(id) {
+  active = id;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('panel').innerHTML = PANELS[id];
+  renderNav();
+}
+
+function renderNav() {
+  const wordmark = document.getElementById('wordmark');
+  wordmark.style.borderBottom = active === 'overview' ? '2px solid #1a1a1a' : '2px solid transparent';
+  wordmark.style.color = active === 'overview' ? '#1a1a1a' : '#888';
+
+  const container = document.getElementById('nav-groups');
+  container.innerHTML = '';
+  container.style.display = 'flex';
+  container.style.alignItems = 'center';
+
+  NAV_TABS.forEach(group => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center';
+
+    const divider = document.createElement('div');
+    divider.className = 'nav-divider';
+    div.appendChild(divider);
+
+    const label = document.createElement('span');
+    label.style.cssText = "font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#888;padding:0 8px;white-space:nowrap";
+    label.textContent = group.group;
+    div.appendChild(label);
+
+    group.tabs.forEach(tab => {
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn';
+      btn.textContent = tab.label;
+      btn.onclick = () => switchTab(tab.id);
+      const isActive = active === tab.id;
+      btn.style.borderBottomColor = isActive ? (ACCENT[tab.id] || '#1a1a1a') : 'transparent';
+      btn.style.color = isActive ? (ACCENT[tab.id] || '#1a1a1a') : '#888';
+      btn.style.fontWeight = isActive ? '500' : '400';
+      div.appendChild(btn);
+    });
+
+    container.appendChild(div);
+  });
+}
+
+// Init
+document.getElementById('panel').innerHTML = PANELS['overview'];
+renderNav();
+</script>
+</body>
+</html>
